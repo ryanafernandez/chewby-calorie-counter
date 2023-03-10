@@ -1,4 +1,4 @@
-const Modela = require('./Modela');
+const User = require('./User');
 const Modelb = require('./Modelb');
 
-module.exports = { Modela, Modelb };
+module.exports = { User, Modelb };
