@@ -8,6 +8,7 @@
     "seed": "node seeds/seed.js",
     "watch": "nodemon server.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
