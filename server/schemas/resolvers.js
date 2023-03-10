@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Modelb } = require('../models');
+const { User, LoggedDay } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -9,6 +9,13 @@ const resolvers = {
     },
     user: async (parent, { username }) => {
         return User.findOne({ username });
+    },
+    loggedDays: async (parent, { username }) => {
+        const params = username ? { username } : {};
+        return LoggedDay.find(params).sort({ createdAt: -1 });
+    },
+    loggedDay: async (parent, { loggedDayId }) => {
+        return LoggedDay.findOne({ _id: loggedDayId });
     },
   },
 
@@ -34,6 +41,16 @@ const resolvers = {
         const token = signToken(user);
 
         return { token, user };
+    },
+    addLoggedDay: async (parent, { entry, loggedDayAuthor }) => {
+        const loggedDay = await LoggedDay.create({ entry, loggedDayAuthor });
+
+        await User.findOneAndUpdate(
+            { username: loggedDayAuthor },
+            { $addToSet: { loggedDays: loggedDay._id }}
+        );
+
+        return loggedDay;
     },
   },
 };

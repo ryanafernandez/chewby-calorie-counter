@@ -6,6 +6,14 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
+    loggedDays: [LoggedDay]
+  }
+
+  type LoggedDay {
+    _id: ID
+    entry: String
+    createdAt: String
+    loggedDayAuthor: String
   }
 
   type Auth {
@@ -16,11 +24,14 @@ const typeDefs = gql`
   type Query {
     users: [User]
     user(username: String!): User
+    loggedDays(username: String): [LoggedDay]
+    loggedDay(loggedDayId: ID!): LoggedDay
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    addLoggedDay(entry: String!, loggedDayAuthor: String!): LoggedDay
   }
 `;
 

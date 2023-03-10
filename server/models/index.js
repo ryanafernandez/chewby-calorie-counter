@@ -1,4 +1,4 @@
 const User = require('./User');
-const Modelb = require('./Modelb');
+const LoggedDay = require('./LoggedDay');
 
-module.exports = { User, Modelb };
+module.exports = { User, LoggedDay };
