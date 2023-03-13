@@ -6,9 +6,9 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
         if (context.user) {
-            return User.findOne({ _id: context.user._id }).populate('loggedDays');
+            return User.findOne({ _id: context.user._id });
         }
-        throw new AuthenticationError('You need to be logged in!');
+        throw new AuthenticationError('(query.me): You need to be logged in!');
     },
     users: async () => {
       return User.find();
