@@ -4,6 +4,12 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
+    me: async (parent, args, context) => {
+        if (context.user) {
+            return User.findOne({ _id: context.user._id }).populate('loggedDays');
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
     users: async () => {
       return User.find();
     },
@@ -49,33 +55,42 @@ const resolvers = {
 
         return { token, user };
     },
-    addLoggedDay: async (parent, { loggedDayAuthor }) => {
-        const loggedDay = await LoggedDay.create({ loggedDayAuthor });
+    addLoggedDay: async (parent, { loggedDayAuthor }, context) => {
+        if (context.user) {
+            const loggedDay = await LoggedDay.create({ loggedDayAuthor });
 
-        await User.findOneAndUpdate(
-            { username: loggedDayAuthor },
-            { $addToSet: { loggedDays: loggedDay._id }}
-        );
+            await User.findOneAndUpdate(
+                { username: loggedDayAuthor },
+                { $addToSet: { loggedDays: loggedDay._id }}
+            );
 
-        return loggedDay;
+            return loggedDay;
+        }
+        throw new AuthenticationError('You need to be logged in!');
     },
-    addEntry: async (parent , { item, calories, loggedDayId }) => {
-        await LoggedDay.findOneAndUpdate(
-            { _id: loggedDayId }, // find the day asdf }
-            { $addToSet: { entries: { item: item, calories: calories } }}
-        );
+    addEntry: async (parent , { item, calories, loggedDayId }, context) => {
+        if (context.user) {
+            await LoggedDay.findOneAndUpdate(
+                { _id: loggedDayId }, // find the day asdf }
+                { $addToSet: { entries: { item: item, calories: calories } }}
+            );
 
-        const loggedDay = await LoggedDay.findById( loggedDayId );
-        return loggedDay;
+            const loggedDay = await LoggedDay.findById( loggedDayId );
+            return loggedDay;
+        }
+        throw new AuthenticationError('You need to be logged in!');
     },
-    removeEntry: async (parent, { entryId, loggedDayId }) => {
-        await LoggedDay.findOneAndUpdate(
-            { _id: loggedDayId },
-            { $pull: { entries: { _id: entryId } } },
-        );
-
-        const loggedDay = await LoggedDay.findById( loggedDayId );
-        return loggedDay;
+    removeEntry: async (parent, { entryId, loggedDayId }, context) => {
+        if (context.user) {
+            await LoggedDay.findOneAndUpdate(
+                { _id: loggedDayId },
+                { $pull: { entries: { _id: entryId } } },
+            );
+    
+            const loggedDay = await LoggedDay.findById( loggedDayId );
+            return loggedDay;
+        }
+        throw new AuthenticationError('You need to be logged in!');
     },
   },
 };
