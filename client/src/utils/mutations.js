@@ -25,3 +25,18 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_ENTRY = gql`
+  mutation AddEntry($item: String!, $calories: Int!, $loggedDayId: String!) {
+    addEntry(item: $item, calories: $calories, loggedDayId: $loggedDayId) {
+      _id
+      createdAt
+      entries {
+        _id
+        calories
+        item
+      }
+      loggedDayAuthor
+    }
+  }
+`;
