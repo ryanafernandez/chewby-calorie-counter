@@ -6,12 +6,12 @@ const loggedDaySchema = new Schema({
   loggedDay: {
     type: String,
     required: true,
-    unique: true,
   },
   loggedDayAuthor: {
     type: String,
     required: true,
     trim: true,
+    unique: true,
   },
   timestamp: {
     type: Date,
