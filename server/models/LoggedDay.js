@@ -3,16 +3,21 @@ const dateFormat = require('../utils/dateFormat');
 const entrySchema = require('./Entry');
 
 const loggedDaySchema = new Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    get: (timestamp) => dateFormat(timestamp),
-    // mongoose setter
+  loggedDay: {
+    type: String,
+    required: true,
+    unique: true,
   },
   loggedDayAuthor: {
     type: String,
     required: true,
     trim: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
+    // mongoose setter
   },
   entries: [entrySchema], 
 });

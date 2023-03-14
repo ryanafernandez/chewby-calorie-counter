@@ -10,9 +10,10 @@ const typeDefs = gql`
 
   type LoggedDay {
     _id: ID
-    entries: [Entry]
-    createdAt: String
+    loggedDay: String!
     loggedDayAuthor: String!
+    timestamp: String
+    entries: [Entry]
   }
 
   type Entry {
@@ -31,7 +32,7 @@ const typeDefs = gql`
     users: [User]
     user(username: String!): User
     loggedDays(username: String): [LoggedDay]
-    loggedDay(loggedDayId: ID!): LoggedDay
+    loggedDay(loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     entry(entryId: ID!): Entry
     entries(loggedDayAuthor: String): [Entry]
   }
@@ -39,8 +40,8 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-    addLoggedDay(loggedDayAuthor: String!): LoggedDay
-    addEntry(item: String!, calories: Int!, loggedDayId: String!): LoggedDay
+    addLoggedDay(loggedDay: String!, loggedDayAuthor: String!): LoggedDay
+    addEntry(item: String!, calories: Int!, loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     removeEntry(entryId: String!, loggedDayId: String!): LoggedDay
   }
 `;

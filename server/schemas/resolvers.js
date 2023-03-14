@@ -20,8 +20,8 @@ const resolvers = {
         const params = username ? { username } : {};
         return LoggedDay.find(params).sort({ createdAt: -1 });
     },
-    loggedDay: async (parent, { loggedDayId }) => {
-        return LoggedDay.findOne({ _id: loggedDayId });
+    loggedDay: async (parent, { loggedDay, loggedDayAuthor }) => {
+        return LoggedDay.findOne({ loggedDay, loggedDayAuthor });
     },
     entry: async (parent, { entryId }) => {
         return Entry.findOne({ _id: entryId });
@@ -55,30 +55,35 @@ const resolvers = {
 
         return { token, user };
     },
-    addLoggedDay: async (parent, { loggedDayAuthor }, context) => {
+    addLoggedDay: async (parent, { loggedDay, loggedDayAuthor }, context) => {
         if (context.user) {
-            const loggedDay = await LoggedDay.create({ loggedDayAuthor });
+            const newLoggedDay = await LoggedDay.create({ loggedDay, loggedDayAuthor });
 
             await User.findOneAndUpdate(
                 { username: loggedDayAuthor },
-                { $addToSet: { loggedDays: loggedDay._id }}
+                { $addToSet: { loggedDays: newLoggedDay._id }}
             );
 
-            return loggedDay;
+            return newLoggedDay;
         }
         throw new AuthenticationError('You need to be logged in!');
     },
-    addEntry: async (parent , { item, calories, loggedDayId }, context) => {
-        console.log(loggedDayId);
+    addEntry: async (parent , { item, calories, loggedDay, loggedDayAuthor }, context) => {
+        console.log(`Adding ${item} (${calories} calories) to ${loggedDayAuthor}\'s log for ${loggedDay}.`);
         if (context.user) {
             
             await LoggedDay.findOneAndUpdate(
-                { _id: loggedDayId }, // find the day asdf }
+                { 
+                    loggedDay: loggedDay,
+                    loggedDayAuthor: loggedDayAuthor,
+                }, // find the day to log by day and author
                 { $addToSet: { entries: { item: item, calories: calories } }}
             );
 
-            const loggedDay = await LoggedDay.findById( loggedDayId );
-            return loggedDay;
+            const updatedLoggedDay = await LoggedDay.findOne( {
+                    loggedDay, loggedDayAuthor
+                });
+            return updatedLoggedDay;
         }
         throw new AuthenticationError('You need to be logged in!');
     },
