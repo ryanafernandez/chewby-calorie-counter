@@ -6,7 +6,7 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
         if (context.user) {
-            return User.findOne({ _id: context.user._id });
+            return User.findOne({ _id: context.user._id }).populate('loggedDays');
         }
         throw new AuthenticationError('(query.me): You need to be logged in!');
     },
@@ -69,7 +69,9 @@ const resolvers = {
         throw new AuthenticationError('You need to be logged in!');
     },
     addEntry: async (parent , { item, calories, loggedDayId }, context) => {
+        console.log(loggedDayId);
         if (context.user) {
+            
             await LoggedDay.findOneAndUpdate(
                 { _id: loggedDayId }, // find the day asdf }
                 { $addToSet: { entries: { item: item, calories: calories } }}
