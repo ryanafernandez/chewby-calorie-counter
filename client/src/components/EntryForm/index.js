@@ -3,11 +3,14 @@ import { useMutation } from '@apollo/client';
 
 import { ADD_ENTRY } from '../../utils/mutations';
 
+import Auth from '../../utils/auth';
+
 const EntryFrom = () => {
     const [formState, setFormState] = useState({
         item: '',
         calories: 0,
-        loggedDayId: "640ab0b0a3a80be21247c475",
+        loggedDay: '03/13/2023',
+        loggedDayAuthor: Auth.getProfile().data.username,
     });
 
     const [addEntry, { error, data }] = useMutation(ADD_ENTRY);
@@ -26,7 +29,6 @@ const EntryFrom = () => {
                 calories: 0,
             });
         } catch (err) {
-            console.log('help');
             console.error(err);
         }
     };
