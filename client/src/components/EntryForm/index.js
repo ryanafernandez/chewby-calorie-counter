@@ -18,6 +18,10 @@ const EntryFrom = (loggedDay) => {
     const handleAddEntry = async (event) => {
         event.preventDefault();
         
+        // need to check if the day is logged
+        // if not, then call ADD_DAY
+        // else, continue
+        
         try {
             console.log({...formState});
             const { data } = await addEntry({
