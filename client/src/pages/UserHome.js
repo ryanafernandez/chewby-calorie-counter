@@ -18,8 +18,12 @@ const UserHome = () => {
     if (loading) return 'Loading...';
 
     let today = new Date();
+    // nice formatted day for user home
     let formattedDay = dateFormat(today, { dayLength: '', monthLength: '', dateSuffix: true });
-    let loggedDay = loggedDayFormat(today);
+
+    // formatted loggedDay for backend ( mm/dd/yyyy )
+    let loggedDay = loggedDayFormat(today); // 03/13/2023
+
     console.log(formattedDay);
     console.log(loggedDay);
 
