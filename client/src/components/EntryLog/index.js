@@ -14,14 +14,14 @@ const EntryLog = ({ loggedDay }) => {
             loggedDayAuthor: Auth.getProfile().data.username 
         }
     });
-    
+
     if (loading) return 'Loading...';
     if (error) return console.error(error);
 
     const loggedDayData = data?.loggedDay;
 
     // If no data logged for the day, say so.
-    if (!loggedDayData) {
+    if (!loggedDayData || (loggedDayData.entries.length < 1)) {
         return (
             <>
                 <p> You haven't made any entries for {loggedDay} yet. </p>

@@ -72,7 +72,8 @@ const resolvers = {
         console.log(`Adding ${item} (${calories} calories) to ${loggedDayAuthor}\'s log for ${loggedDay}.`);
         if (context.user) {
             
-            await LoggedDay.findOneAndUpdate(
+            // Looking for loggedDay, if it exists, then update. Else, findThis is null
+            const findThis = await LoggedDay.findOneAndUpdate(
                 { 
                     loggedDay: loggedDay,
                     loggedDayAuthor: loggedDayAuthor,
@@ -80,10 +81,37 @@ const resolvers = {
                 { $addToSet: { entries: { item: item, calories: calories } }}
             );
 
-            const updatedLoggedDay = await LoggedDay.findOne( {
+            // If findThis is not null, then return the updated loggedDay
+            if (findThis) {
+                const updatedLoggedDay = await LoggedDay.findOne( {
                     loggedDay, loggedDayAuthor
                 });
-            return updatedLoggedDay;
+                return updatedLoggedDay;
+            } else { // Else, add a new logged day, and add the entry
+                // Create the new logged day
+                const newLoggedDay = await LoggedDay.create({ loggedDay, loggedDayAuthor });
+
+                await User.findOneAndUpdate(
+                    { username: loggedDayAuthor },
+                    { $addToSet: { loggedDays: newLoggedDay._id }}
+                );
+
+                // Add the entry
+                await LoggedDay.findOneAndUpdate(
+                    { 
+                        loggedDay: loggedDay,
+                        loggedDayAuthor: loggedDayAuthor,
+                    }, // find the day to log by day and author
+                    { $addToSet: { entries: { item: item, calories: calories } }}
+                );
+
+                // Return the new loggedDay
+                const updatedLoggedDay = await LoggedDay.findOne( {
+                    loggedDay, loggedDayAuthor
+                });
+                return updatedLoggedDay;
+            }
+            
         }
         throw new AuthenticationError('You need to be logged in!');
     },
