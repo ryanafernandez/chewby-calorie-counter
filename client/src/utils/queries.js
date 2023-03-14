@@ -29,9 +29,6 @@ export const QUERY_SINGLE_LOGGED_DAY = gql`
                 calories
                 item
             }
-            loggedDay
-            loggedDayAuthor
-            timestamp
         }
     }
 `;

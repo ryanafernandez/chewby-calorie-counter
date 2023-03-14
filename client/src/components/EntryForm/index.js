@@ -5,11 +5,11 @@ import { ADD_ENTRY } from '../../utils/mutations';
 
 import Auth from '../../utils/auth';
 
-const EntryFrom = () => {
+const EntryFrom = (loggedDay) => {
     const [formState, setFormState] = useState({
         item: '',
         calories: 0,
-        loggedDay: '03/13/2023',
+        loggedDay: loggedDay.loggedDay,
         loggedDayAuthor: Auth.getProfile().data.username,
     });
 
