@@ -57,3 +57,19 @@ export const ADD_LOGGED_DAY = gql`
     }
   }
 `;
+
+export const REMOVE_ENTRY = gql`
+  mutation RemoveEntry($entryId: String!, $loggedDayId: String!) {
+    removeEntry(entryId: $entryId, loggedDayId: $loggedDayId) {
+      _id
+      entries {
+        _id
+        calories
+        item
+      }
+      loggedDay
+      loggedDayAuthor
+      timestamp
+    }
+  }
+`;
