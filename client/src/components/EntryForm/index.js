@@ -5,7 +5,8 @@ import { ADD_ENTRY } from '../../utils/mutations';
 
 import Auth from '../../utils/auth';
 
-const EntryFrom = (props) => {
+// EntryForm not from
+const EntryForm = (props) => {
     const [formState, setFormState] = useState({
         item: '',
         calories: 0,
@@ -30,6 +31,8 @@ const EntryFrom = (props) => {
                 item: '',
                 calories: 0,
             });
+
+            /// props.onSubmit();
         } catch (err) {
             console.error(err);
         }
@@ -67,4 +70,4 @@ const EntryFrom = (props) => {
     );
 };
 
-export default EntryFrom;
+export default EntryForm;
