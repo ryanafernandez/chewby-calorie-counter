@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 
-import { GET_ME } from '../../utils/queries';
 import { QUERY_SINGLE_LOGGED_DAY } from '../../utils/queries';
 
 import Auth from '../../utils/auth';
@@ -22,6 +21,7 @@ const EntryLog = ({ loggedDay }) => {
 
     // If no data logged for the day, say so.
     if (!loggedDayData || (loggedDayData.entries.length < 1)) {
+        console.log("EntryLog - No logs found for:", loggedDay);
         return (
             <>
                 <p> You haven't made any entries for {loggedDay} yet. </p>
@@ -29,6 +29,7 @@ const EntryLog = ({ loggedDay }) => {
         );
     }
 
+    console.log("EntryLog - Displaying entry log for:", loggedDay);
     // Otherwise, return current entries.
     return (
         <>
