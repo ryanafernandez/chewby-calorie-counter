@@ -5,27 +5,25 @@ import { ADD_ENTRY } from '../../utils/mutations';
 
 import Auth from '../../utils/auth';
 
-const EntryFrom = (loggedDay) => {
+const EntryFrom = (props) => {
     const [formState, setFormState] = useState({
         item: '',
         calories: 0,
-        loggedDay: loggedDay.loggedDay,
         loggedDayAuthor: Auth.getProfile().data.username,
     });
+
+    console.log("EntryForm - formState:", formState);
+    console.log("EntryForm - loggedDay", props.loggedDay);
 
     const [addEntry, { error, data }] = useMutation(ADD_ENTRY);
 
     const handleAddEntry = async (event) => {
         event.preventDefault();
-        
-        // need to check if the day is logged
-        // if not, then call ADD_DAY
-        // else, continue
 
         try {
-            console.log({...formState});
+            console.log("EntryForm - addEntry:", {...formState});
             const { data } = await addEntry({
-                variables: { ...formState },
+                variables: { ...formState, loggedDay: props.loggedDay },
             });
 
             setFormState({ ...formState,

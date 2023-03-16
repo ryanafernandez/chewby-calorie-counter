@@ -26,7 +26,7 @@ const UserHome = () => {
 
     // formatted loggedDay for backend ( mm/dd/yyyy )
     let loggedDay = loggedDayFormat(viewedDay); // 03/13/2023
-    console.log("loggedDay:", loggedDay);
+    console.log("UserHome - loggedDay:", loggedDay);
 
     const handlePrev = async (event) => {
         event.preventDefault();
@@ -34,7 +34,7 @@ const UserHome = () => {
         // for reference: https://stackoverflow.com/questions/71507861/react-js-not-refreshing-state-update-with-date-value
         const prev = new Date(viewedDay);
         prev.setDate(viewedDay.getDate() - 1);
-        console.log("prev", prev);
+        console.log("UserHome - prev", prev);
         setViewedDay(prev);
     };
 
@@ -43,7 +43,7 @@ const UserHome = () => {
 
         const next = new Date(viewedDay);
         next.setDate(viewedDay.getDate() + 1);
-        console.log("next:", next);
+        console.log("UserHome - next:", next);
         setViewedDay(next);
     }
 
