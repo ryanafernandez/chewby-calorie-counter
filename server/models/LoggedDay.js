@@ -11,7 +11,6 @@ const loggedDaySchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true,
   },
   timestamp: {
     type: Date,
