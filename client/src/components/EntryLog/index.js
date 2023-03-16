@@ -1,7 +1,8 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
 import { QUERY_SINGLE_LOGGED_DAY } from '../../utils/queries';
+import { REMOVE_ENTRY } from '../../utils/mutations'
 
 import Auth from '../../utils/auth';
 
@@ -13,6 +14,8 @@ const EntryLog = ({ loggedDay }) => {
             loggedDayAuthor: Auth.getProfile().data.username 
         }
     });
+
+    const [removeEntry, { removeError, removeData }] = useMutation(REMOVE_ENTRY);
 
     if (loading) return 'Loading...';
     if (error) return console.error(error);
@@ -29,14 +32,31 @@ const EntryLog = ({ loggedDay }) => {
         );
     }
 
+    const handleRemoveEntry = async (entryId) => {
+
+        try {
+            const { data } = await removeEntry({ 
+                variables: { 
+                    entryId: entryId,
+                    loggedDayId: loggedDayData._id
+                },
+            });
+            console.log("delete id:", entryId);
+        } catch (err) {
+            console.error(err);
+        }
+        
+    };
+
     console.log("EntryLog - Displaying entry log for:", loggedDay);
     // Otherwise, return current entries.
     return (
         <>
             {loggedDayData.entries.map((entry) => (
-                <div>
+                <div entryid={entry._id}>
                     <p>{entry.item}</p>
                     <p>{entry.calories}</p>
+                    <button onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}>Delete</button>
                 </div>
             ))}
         </>
