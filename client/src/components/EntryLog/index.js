@@ -44,18 +44,30 @@ const EntryLog = ({ loggedDay }) => {
         pollInterval: 500,
     });
 
+    const dailyGoal = 2000;
+    let dailyCalories = 0;
+
     const [removeEntry, { removeError, removeData }] = useMutation(REMOVE_ENTRY);
 
     if (loading) return 'Loading...';
     if (error) return console.error(error);
 
     const loggedDayData = data?.loggedDay;
-    
+
+    let caloriePercentage = 100*(1-(dailyCalories/dailyGoal));
+    if (caloriePercentage <= 0) {
+        caloriePercentage = 0;
+    }
+
     // If no data logged for the day, say so.
     if (!loggedDayData || (loggedDayData.entries.length < 1)) {
         console.log("EntryLog - No logs found for:", loggedDay);
         return (
             <>
+                <p>{dailyGoal-dailyCalories}/{dailyGoal}</p>
+                <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
+                    <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${caloriePercentage}%`, height: '100%'}}></div>
+                </div>
                 <p> You haven't made any entries for {loggedDay} yet. </p>
             </>
         );
@@ -79,12 +91,11 @@ const EntryLog = ({ loggedDay }) => {
 
     console.log("EntryLog - Displaying entry log for:", loggedDay);
     // Otherwise, return current entries.
-    const dailyGoal = 2000;
-    let dailyCalories = 0;
+    
     loggedDayData.entries.forEach(entry => {
         dailyCalories += entry.calories;
     });
-    let caloriePercentage = 100*(1-(dailyCalories/dailyGoal));
+    caloriePercentage = 100*(1-(dailyCalories/dailyGoal));
     if (caloriePercentage <= 0) {
         caloriePercentage = 0;
     }
