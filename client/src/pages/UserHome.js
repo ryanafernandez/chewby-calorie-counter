@@ -9,6 +9,8 @@ import Auth from '../utils/auth';
 import dateFormat from '../utils/dateFormat';
 import loggedDayFormat from '../utils/loggedDayFormat';
 
+import { ButtonAnimatedLeft, ButtonAnimatedRight } from '../utils/buttonAnimated';
+
 const UserHome = () => {
     // create state for holding the viewed date
     const [viewedDay, setViewedDay] = useState(new Date());
@@ -20,6 +22,13 @@ const UserHome = () => {
     if (loading) return 'Loading...';
 
     var today = new Date();
+    const prev = new Date(viewedDay);
+    prev.setDate(viewedDay.getDate() - 1);
+    const prevDay = loggedDayFormat(prev);
+
+    const next = new Date(viewedDay);
+    next.setDate(viewedDay.getDate() + 1);
+    const nextDay = loggedDayFormat(next);
 
     // nice formatted day for user home
     let formattedDay = dateFormat(viewedDay, { dayLength: '', monthLength: '', dateSuffix: true });
@@ -51,9 +60,9 @@ const UserHome = () => {
         <div>
             <h2>Hello {Auth.getProfile().data.username}</h2>
             <div>
-                <button onClick={handlePrev}>Prev</button>
+                <ButtonAnimatedLeft handlePrev={handlePrev} prev={prevDay}/>
                 <h2>{formattedDay}</h2>
-                <button onClick={handleNext}>Next</button>
+                <ButtonAnimatedRight handleNext={handleNext} next={nextDay}/>
             </div>
             <div>
                 <EntryLog loggedDay={loggedDay} />
