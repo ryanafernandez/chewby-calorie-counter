@@ -50,8 +50,6 @@ const UserHome = () => {
     return (
         <div>
             <h2>Hello {Auth.getProfile().data.username}</h2>
-            <p>_id: {userData._id}</p>
-            <p>email: {userData.email}</p>
             <div>
                 <button onClick={handlePrev}>Prev</button>
                 <h2>{formattedDay}</h2>
