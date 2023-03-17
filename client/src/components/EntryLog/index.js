@@ -79,8 +79,23 @@ const EntryLog = ({ loggedDay }) => {
 
     console.log("EntryLog - Displaying entry log for:", loggedDay);
     // Otherwise, return current entries.
+    const dailyGoal = 2000;
+    let dailyCalories = 0;
+    loggedDayData.entries.forEach(entry => {
+        dailyCalories += entry.calories;
+    });
+    let caloriePercentage = 100*(1-(dailyCalories/dailyGoal));
+    if (caloriePercentage <= 0) {
+        caloriePercentage = 0;
+    }
+    console.log("******daily:", dailyCalories);
+    console.log("cal%: ", caloriePercentage);
     return (
         <>
+            <p>{dailyGoal-dailyCalories}/{dailyGoal}</p>
+            <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
+                <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${caloriePercentage}%`, height: '100%'}}></div>
+            </div>
             {loggedDayData.entries.map((entry) => (
                 <div entryid={entry._id}>
                     <p>{entry.item}</p>
