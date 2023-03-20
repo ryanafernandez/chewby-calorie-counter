@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import { Button, Icon, Table } from 'semantic-ui-react'
 
 import { QUERY_SINGLE_LOGGED_DAY } from '../../utils/queries';
 import { REMOVE_ENTRY } from '../../utils/mutations'
@@ -36,7 +37,7 @@ import Auth from '../../utils/auth';
 
 const EntryLog = ({ loggedDay }) => {
    
-    const { loading, error, data, refetch } = useQuery(QUERY_SINGLE_LOGGED_DAY, {
+    const { loading, error, data } = useQuery(QUERY_SINGLE_LOGGED_DAY, {
         variables: { 
             loggedDay: loggedDay, 
             loggedDayAuthor: Auth.getProfile().data.username 
@@ -102,19 +103,60 @@ const EntryLog = ({ loggedDay }) => {
     console.log("******daily:", dailyCalories);
     console.log("cal%: ", caloriePercentage);
     return (
-        <>
-            <p>{dailyGoal-dailyCalories}/{dailyGoal}</p>
-            <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
-                <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${caloriePercentage}%`, height: '100%'}}></div>
-            </div>
-            {loggedDayData.entries.map((entry) => (
-                <div entryid={entry._id}>
-                    <p>{entry.item}</p>
-                    <p>{entry.calories}</p>
-                    <button onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}>Delete</button>
+        <div>
+            <div class="calorieMeter">
+                <p>{dailyGoal-dailyCalories}/{dailyGoal}</p>
+                <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
+                    <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${caloriePercentage}%`, height: '100%'}}></div>
                 </div>
-            ))}
-        </>
+            </div>
+            
+            <Table striped>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Item</Table.HeaderCell>
+                        <Table.HeaderCell>Calories</Table.HeaderCell>
+                        <Table.HeaderCell></Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                    {loggedDayData.entries.map((entry) => (
+                        <Table.Row>
+                            <Table.Cell>{entry.item}</Table.Cell>
+                            <Table.Cell>{entry.calories}</Table.Cell>
+                            <Table.Cell>
+                                <Button 
+                                    icon
+                                    onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
+                                >
+                                    <Icon name='delete' />
+                                </Button>
+                            </Table.Cell>
+                        </Table.Row> 
+                    ))}
+                </Table.Body>
+            </Table>
+
+            {/* <div class="flex-column-center">
+                {loggedDayData.entries.map((entry) => (
+                    <div class="flex-row-center" entryid={entry._id}>
+                        <div class="flex-row-center">
+                            <p>{entry.item}</p>
+                            <p>{entry.calories}</p>
+                        </div>
+                        
+                        <Button 
+                            icon
+                            onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
+                        >
+                            <Icon name='delete' />
+                        </Button>
+                    </div>
+                ))}
+            </div> */}
+            
+        </div>
     );
 };
 

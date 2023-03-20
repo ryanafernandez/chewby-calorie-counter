@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { Input, Button } from 'semantic-ui-react';
 
 import { ADD_ENTRY } from '../../utils/mutations';
 
@@ -23,6 +24,12 @@ const EntryForm = (props) => {
 
         try {
             console.log("EntryForm - addEntry:", {...formState});
+            
+            if (!formState.item.length) {
+                console.error("Please fill out the form");
+                return;
+            }
+
             const { data } = await addEntry({
                 variables: { ...formState, loggedDay: props.loggedDay },
             });
@@ -50,22 +57,22 @@ const EntryForm = (props) => {
 
     return (
         <div>
-            <input
+            <Input 
                 name="item"
                 placeholder="Enter an item to add"
                 value={formState.item}
-                onChange={handleChange}
+                onChange={handleChange} 
             />
-            <input
+            <Input
                 type="number"
                 name="calories"
                 placeholder="Enter calories for this item"
                 value={formState.calories}
                 onChange={handleChange}
             />
-            <button onClick={handleAddEntry}>
+            <Button onClick={handleAddEntry}>
                 Add Entry
-            </button>
+            </Button>
         </div>
     );
 };
