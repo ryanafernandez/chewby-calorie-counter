@@ -5,6 +5,7 @@ import { Button, Icon, Table } from 'semantic-ui-react'
 
 import CalorieBar from '../CalorieBar';
 import EntryForm from '../EntryForm';
+import UpdateForm from '../UpdateForm';
 
 import { QUERY_SINGLE_LOGGED_DAY } from '../../utils/queries';
 import { REMOVE_ENTRY } from '../../utils/mutations'
@@ -41,7 +42,11 @@ import Auth from '../../utils/auth';
 const EntryLog = (props) => {
    
     const [ edit, setEdit ] = useState(false);
-    const [ showModal, setShowModal ] = useState(false);
+    const [ showEntryForm, setShowEntryForm ] = useState(false);
+    const [ showUpdateForm, setShowUpdateForm ] = useState(false);
+    const [ updateId, setUpdateId ] = useState();
+    const [ updateItem, setUpdateItem ] = useState();
+    const [ updateCalories, setUpdateCalories ] = useState();
     const { loading, error, data } = useQuery(QUERY_SINGLE_LOGGED_DAY, {
         variables: { 
             loggedDay: props.loggedDay, 
@@ -78,7 +83,7 @@ const EntryLog = (props) => {
             console.error(err);
         }
         
-    };
+    };  
     
     return (
         <div>
@@ -113,6 +118,18 @@ const EntryLog = (props) => {
                                             >
                                                 <Icon name='delete' />
                                             </Button>
+                                            <Button
+                                                icon
+                                                onClick={e=> { 
+                                                    e.preventDefault();
+                                                    setUpdateId(entry._id);
+                                                    setUpdateItem(entry.item);
+                                                    setUpdateCalories(entry.calories);
+                                                    setShowUpdateForm(true);
+                                                }}
+                                            >
+                                                <Icon name='pencil' />
+                                            </Button>
                                         </Table.Cell>
                                         : console.log('okay')
                                     }
@@ -121,19 +138,19 @@ const EntryLog = (props) => {
                         </Table.Body>
                     </Table>
                     <Button onClick={() => setEdit(!edit)}>
-                        Remove entry
+                        Edit entry
                     </Button>
                 </>
             }
             
-            <Button color='green' onClick={() => setShowModal(true)}>
+            <Button color='green' onClick={() => setShowEntryForm(true)}>
                 Add an entry
             </Button>
             
             <Modal
                 size='lg'
-                show={showModal}
-                onHide={() => setShowModal(false)}
+                show={showEntryForm}
+                onHide={() => setShowEntryForm(false)}
                 aria-labelledby='entryform-modal'
             >
                 <Modal.Header closeButton>
@@ -142,9 +159,31 @@ const EntryLog = (props) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <EntryForm loggedDay={props.loggedDay} handleModalClose={() => setShowModal(false)} />
+                    <EntryForm loggedDay={props.loggedDay} handleModalClose={() => setShowEntryForm(false)} />
                 </Modal.Body>
-            </Modal>           
+            </Modal> 
+
+            <Modal
+                size='lg'
+                show={showUpdateForm}
+                onHide={() => setShowUpdateForm(false)}
+                aria-labelledby='updateform-modal'
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id='updateform-modal'>
+                        Edit an Entry
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <UpdateForm 
+                        loggedDay={props.loggedDay} 
+                        handleModalClose={() => {setShowUpdateForm(false);setEdit(false);}}
+                        entryId={updateId}
+                        item={updateItem}
+                        calories={updateCalories}
+                    />
+                </Modal.Body>
+            </Modal>          
         </div>
     );
 };

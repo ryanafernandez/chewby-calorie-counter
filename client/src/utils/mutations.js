@@ -73,3 +73,19 @@ export const REMOVE_ENTRY = gql`
     }
   }
 `;
+
+export const UPDATE_ENTRY = gql`
+  mutation UpdateEntry($entryId: String!, $item: String!, $calories: Int!) {
+    updateEntry(entryId: $entryId, item: $item, calories: $calories) {
+      _id
+      entries {
+        _id
+        calories
+        item
+      }
+      loggedDay
+      loggedDayAuthor
+      timestamp
+    }
+  }
+`;

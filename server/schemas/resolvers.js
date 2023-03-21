@@ -127,6 +127,20 @@ const resolvers = {
         }
         throw new AuthenticationError('You need to be logged in!');
     },
+    updateEntry: async (parent, { entryId, item, calories }, context) => {
+        if (context.user) {
+            await LoggedDay.findOneAndUpdate(
+                { "entries._id": entryId },
+                { $set: { "entries.$": { item: item, calories: calories } } },
+            );
+            
+            const loggedDay = await LoggedDay.findOne(
+                { "entries._id": entryId }
+            );
+
+            return loggedDay;
+        }
+    }
   },
 };
 
