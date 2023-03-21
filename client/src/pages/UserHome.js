@@ -57,9 +57,9 @@ const UserHome = () => {
     }
 
     return (
-        <div>
+        <div class="flex-column-center">
             <h2>Hello {Auth.getProfile().data.username}</h2>
-            <div>
+            <div class="flex-row-center">
                 <ButtonAnimatedLeft handlePrev={handlePrev} prev={prevDay}/>
                 <h2>{formattedDay}</h2>
                 <ButtonAnimatedRight handleNext={handleNext} next={nextDay}/>
