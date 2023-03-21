@@ -73,6 +73,7 @@ const EntryLog = (props) => {
                     loggedDayId: loggedDayData._id
                 },
             });
+            setEdit(false);
         } catch (err) {
             console.error(err);
         }
@@ -120,7 +121,7 @@ const EntryLog = (props) => {
                         </Table.Body>
                     </Table>
                     <Button onClick={() => setEdit(!edit)}>
-                        Edit entries
+                        Remove entry
                     </Button>
                 </>
             }
