@@ -1,15 +1,26 @@
 import React from 'react';
+import { Progress } from 'semantic-ui-react';
+
 
 const CalorieBar = (props) => {
 
+    let overLimit = false;
     let targetPercentage = 100*props.calorieIntake/props.calorieTarget;
+
+    if (targetPercentage > 110) {
+        overLimit = true;
+    }
 
     return (
         <div class="calorieMeter">
-            <p>{props.calorieIntake}/{props.calorieTarget}</p>
-            <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
-                <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${targetPercentage}%`, height: '100%'}}></div>
-            </div>
+            { (overLimit)
+                ? <Progress percent={targetPercentage} color='red' />
+                : <Progress percent={targetPercentage} indicating />
+            }
+
+            <p> 
+                {props.calorieIntake}/{props.calorieTarget}
+            </p>
         </div>
     )
 };
