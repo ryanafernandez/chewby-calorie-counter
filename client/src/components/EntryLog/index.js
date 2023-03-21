@@ -138,7 +138,7 @@ const EntryLog = (props) => {
                         </Table.Body>
                     </Table>
                     <Button onClick={() => setEdit(!edit)}>
-                        Remove entry
+                        Edit entry
                     </Button>
                 </>
             }
