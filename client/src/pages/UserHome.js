@@ -25,17 +25,19 @@ const UserHome = () => {
     var today = new Date();
     const prev = new Date(viewedDay);
     prev.setDate(viewedDay.getDate() - 1);
-    const prevDay = loggedDayFormat(prev);
+    const prevDay = loggedDayFormat(prev, true);
+    const prevShort = loggedDayFormat(prev, false);
 
     const next = new Date(viewedDay);
     next.setDate(viewedDay.getDate() + 1);
-    const nextDay = loggedDayFormat(next);
+    const nextDay = loggedDayFormat(next, true);
+    const nextShort = loggedDayFormat(next, false);
 
     // nice formatted day for user home
     let formattedDay = dateFormat(viewedDay, { dayLength: '', monthLength: '', dateSuffix: true });
 
     // formatted loggedDay for backend ( mm/dd/yyyy )
-    let loggedDay = loggedDayFormat(viewedDay); // 03/13/2023
+    let loggedDay = loggedDayFormat(viewedDay, true); // 03/13/2023
 
     const handlePrev = async (event) => {
         event.preventDefault();
@@ -58,9 +60,9 @@ const UserHome = () => {
         <div class="flex-column-center">
             <h2>Hello {Auth.getProfile().data.username}</h2>
             <div class="flex-row-center">
-                <ButtonAnimatedLeft handlePrev={handlePrev} prev={prevDay}/>
+                <ButtonAnimatedLeft handlePrev={handlePrev} prev={prevShort}/>
                 <h2>{formattedDay}</h2>
-                <ButtonAnimatedRight handleNext={handleNext} next={nextDay}/>
+                <ButtonAnimatedRight handleNext={handleNext} next={nextShort}/>
             </div>
             <div>
                 <EntryLog loggedDay={loggedDay} />
