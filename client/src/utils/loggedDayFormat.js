@@ -1,5 +1,5 @@
 // function to format a timestamp as 'mm/dd/yyyy'
-module.exports = (timestamp) => {
+module.exports = (timestamp, long) => {
 
     const dateObj = new Date(timestamp);
 
@@ -9,7 +9,6 @@ module.exports = (timestamp) => {
 
     const year = dateObj.getFullYear();
 
-    const formattedTimeStamp = `${formattedMonth}/${dayOfMonth}/${year}`;
-
-    return formattedTimeStamp;
+    return (long) ?
+    `${formattedMonth}/${dayOfMonth}/${year}` : `${formattedMonth}/${dayOfMonth}`;
 };
