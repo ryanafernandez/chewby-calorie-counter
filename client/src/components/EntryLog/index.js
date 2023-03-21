@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import { Modal } from 'react-bootstrap';
 import { Button, Icon, Table } from 'semantic-ui-react'
+
+import CalorieBar from '../CalorieBar';
+import EntryForm from '../EntryForm';
 
 import { QUERY_SINGLE_LOGGED_DAY } from '../../utils/queries';
 import { REMOVE_ENTRY } from '../../utils/mutations'
-
 import Auth from '../../utils/auth';
 
 // Option 1 if you wanna pass around props
@@ -35,47 +38,34 @@ import Auth from '../../utils/auth';
 // }
 
 
-const EntryLog = ({ loggedDay }) => {
+const EntryLog = (props) => {
    
+    const [ edit, setEdit ] = useState(false);
+    const [ showModal, setShowModal ] = useState(false);
     const { loading, error, data } = useQuery(QUERY_SINGLE_LOGGED_DAY, {
         variables: { 
-            loggedDay: loggedDay, 
+            loggedDay: props.loggedDay, 
             loggedDayAuthor: Auth.getProfile().data.username 
         },
         pollInterval: 500,
     });
-
-    const dailyGoal = 2000;
-    let dailyCalories = 0;
-
     const [removeEntry, { removeError, removeData }] = useMutation(REMOVE_ENTRY);
+
+    const calorieTarget = 2000;
+    let calorieIntake = 0;
 
     if (loading) return 'Loading...';
     if (error) return console.error(error);
 
     const loggedDayData = data?.loggedDay;
 
-    let caloriePercentage = 100*(1-(dailyCalories/dailyGoal));
-    if (caloriePercentage <= 0) {
-        caloriePercentage = 0;
-    }
-
-    // If no data logged for the day, say so.
-    if (!loggedDayData || (loggedDayData.entries.length < 1)) {
-        console.log("EntryLog - No logs found for:", loggedDay);
-        return (
-            <>
-                <p>{dailyGoal-dailyCalories}/{dailyGoal}</p>
-                <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
-                    <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${caloriePercentage}%`, height: '100%'}}></div>
-                </div>
-                <p> You haven't made any entries for {loggedDay} yet. </p>
-            </>
-        );
-    }
+    if (loggedDayData) {
+        loggedDayData.entries.forEach(entry => {
+            calorieIntake += entry.calories;
+        });
+    };
 
     const handleRemoveEntry = async (entryId) => {
-
         try {
             const { data } = await removeEntry({ 
                 variables: { 
@@ -83,79 +73,77 @@ const EntryLog = ({ loggedDay }) => {
                     loggedDayId: loggedDayData._id
                 },
             });
-            console.log("delete id:", entryId);
         } catch (err) {
             console.error(err);
         }
         
     };
-
-    console.log("EntryLog - Displaying entry log for:", loggedDay);
-    // Otherwise, return current entries.
     
-    loggedDayData.entries.forEach(entry => {
-        dailyCalories += entry.calories;
-    });
-    caloriePercentage = 100*(1-(dailyCalories/dailyGoal));
-    if (caloriePercentage <= 0) {
-        caloriePercentage = 0;
-    }
-    console.log("******daily:", dailyCalories);
-    console.log("cal%: ", caloriePercentage);
     return (
         <div>
-            <div class="calorieMeter">
-                <p>{dailyGoal-dailyCalories}/{dailyGoal}</p>
-                <div id="calorie-bar" style={{height: '30px', width: '300px', border: 'black 3px solid'}}>
-                    <div id="daily-intake" style={{ backgroundColor: "#8CC152", width: `${caloriePercentage}%`, height: '100%'}}></div>
-                </div>
-            </div>
+            <CalorieBar calorieIntake={calorieIntake} calorieTarget={calorieTarget} />
             
-            <Table striped>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Item</Table.HeaderCell>
-                        <Table.HeaderCell>Calories</Table.HeaderCell>
-                        <Table.HeaderCell></Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                    {loggedDayData.entries.map((entry) => (
-                        <Table.Row>
-                            <Table.Cell>{entry.item}</Table.Cell>
-                            <Table.Cell>{entry.calories}</Table.Cell>
-                            <Table.Cell>
-                                <Button 
-                                    icon
-                                    onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
-                                >
-                                    <Icon name='delete' />
-                                </Button>
-                            </Table.Cell>
-                        </Table.Row> 
-                    ))}
-                </Table.Body>
-            </Table>
-
-            {/* <div class="flex-column-center">
-                {loggedDayData.entries.map((entry) => (
-                    <div class="flex-row-center" entryid={entry._id}>
-                        <div class="flex-row-center">
-                            <p>{entry.item}</p>
-                            <p>{entry.calories}</p>
-                        </div>
-                        
-                        <Button 
-                            icon
-                            onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
-                        >
-                            <Icon name='delete' />
-                        </Button>
-                    </div>
-                ))}
-            </div> */}
+            { (!loggedDayData || (loggedDayData.entries.length < 1)) ?
+                <p> You haven't made any entries for {props.loggedDay} yet. </p>
+                :
+                <>
+                    <Table striped>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>Item</Table.HeaderCell>
+                                <Table.HeaderCell>Calories</Table.HeaderCell>
+                                { (edit) ? 
+                                    <Table.HeaderCell></Table.HeaderCell>
+                                    : console.log('okay')
+                                }
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {loggedDayData.entries.map((entry) => (
+                                <Table.Row>
+                                    <Table.Cell>{entry.item}</Table.Cell>
+                                    <Table.Cell>{entry.calories}</Table.Cell>
+                                    { (edit) ?
+                                        <Table.Cell>
+                                            <Button 
+                                                icon
+                                                color='red'
+                                                onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
+                                            >
+                                                <Icon name='delete' />
+                                            </Button>
+                                        </Table.Cell>
+                                        : console.log('okay')
+                                    }
+                                </Table.Row> 
+                            ))}
+                        </Table.Body>
+                    </Table>
+                    <Button onClick={() => setEdit(!edit)}>
+                        Edit entries
+                    </Button>
+                </>
+            }
             
+            <Button color='green' onClick={() => setShowModal(true)}>
+                Add an entry
+            </Button>
+            
+            <Modal
+                size='lg'
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                aria-labelledby='entryform-modal'
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id='entryform-modal'>
+                        Add a New Entry
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <EntryForm loggedDay={props.loggedDay} handleModalClose={() => setShowModal(false)} />
+                </Modal.Body>
+            </Modal>           
         </div>
     );
 };

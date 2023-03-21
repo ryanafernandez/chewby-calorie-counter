@@ -6,7 +6,6 @@ import { ADD_ENTRY } from '../../utils/mutations';
 
 import Auth from '../../utils/auth';
 
-// EntryForm not from
 const EntryForm = (props) => {
     const [formState, setFormState] = useState({
         item: '',
@@ -14,19 +13,15 @@ const EntryForm = (props) => {
         loggedDayAuthor: Auth.getProfile().data.username,
     });
 
-    console.log("EntryForm - formState:", formState);
-    console.log("EntryForm - loggedDay", props.loggedDay);
-
     const [addEntry, { error, data }] = useMutation(ADD_ENTRY);
 
     const handleAddEntry = async (event) => {
         event.preventDefault();
 
         try {
-            console.log("EntryForm - addEntry:", {...formState});
-            
+
             if (!formState.item.length) {
-                console.error("Please fill out the form");
+                console.error("Please enter an item");
                 return;
             }
 
@@ -39,7 +34,7 @@ const EntryForm = (props) => {
                 calories: 0,
             });
 
-            /// props.onSubmit();
+            props.handleModalClose();
         } catch (err) {
             console.error(err);
         }
@@ -56,24 +51,25 @@ const EntryForm = (props) => {
     };
 
     return (
-        <div>
+        <>
             <Input 
+                label="Item"
                 name="item"
-                placeholder="Enter an item to add"
+                placeholder="Item name"
                 value={formState.item}
                 onChange={handleChange} 
             />
             <Input
+                label="Calories"
                 type="number"
                 name="calories"
-                placeholder="Enter calories for this item"
-                value={formState.calories}
+                placeholder="0"
                 onChange={handleChange}
             />
-            <Button onClick={handleAddEntry}>
+            <Button color='green' onClick={handleAddEntry}>
                 Add Entry
             </Button>
-        </div>
+        </>
     );
 };
 
