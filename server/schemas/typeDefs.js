@@ -43,6 +43,7 @@ const typeDefs = gql`
     addLoggedDay(loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     addEntry(item: String!, calories: Int!, loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     removeEntry(entryId: String!, loggedDayId: String!): LoggedDay
+    updateEntry(entryId: String!, item: String!, calories: Int!): LoggedDay
   }
 `;
 
