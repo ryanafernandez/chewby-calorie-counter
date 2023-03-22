@@ -40,16 +40,16 @@ function App() {
       <Router>
         <>
           <Navbar />
-          <Routes>
-            <Route 
-              path="/" 
-              element={Auth.loggedIn() ? <UserHome /> : <Home />} 
-            />
-            <Route
-              path="*"
-              element={<h1 className="display-2">Page Not Found</h1>}
-            />
-          </Routes>
+            <Routes>
+              <Route 
+                path="/" 
+                element={Auth.loggedIn() ? <UserHome /> : <Home />} 
+              />
+              <Route
+                path="*"
+                element={<h1 className="display-2">Page Not Found</h1>}
+              />
+            </Routes>
         </>
       </Router>
     </ApolloProvider>

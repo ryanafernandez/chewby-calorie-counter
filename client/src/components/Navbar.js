@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
+import { Image } from "semantic-ui-react";
 import SignUpForm from "./SignupForm";
 import LoginForm from "./LoginForm";
+import ChewbyLogo from '../images/chewbyorange64.png';
 
 import Auth from "../utils/auth";
 
@@ -12,10 +14,11 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar className="navi" variant="light" expand="lg">
         <Container fluid>
+          <Image src={ChewbyLogo} />
           <Navbar.Brand as={Link} to="/">
-            Calorie Counter
+            Chewby
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">

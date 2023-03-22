@@ -11,34 +11,6 @@ import { QUERY_SINGLE_LOGGED_DAY } from '../../utils/queries';
 import { REMOVE_ENTRY } from '../../utils/mutations'
 import Auth from '../../utils/auth';
 
-// Option 1 if you wanna pass around props
-// const EntryContent = () => {
-//     const [entries, setEntries] = Reacct.useState({})
-//     return(
-//         <div>
-//             <EntirLog entries={entries}></EntirLog>
-//             <EntryForm setEntries={setEntries} entries={entries}></EntryForm>
-//         </div>
-//     )
-// }
-
-// Option 2: refetching for new data
-// const EntryContent = () => {
-    // const { loading, error, data, refetch } = useQuery(QUERY_SINGLE_LOGGED_DAY, {
-    //     variables: { 
-    //         loggedDay: loggedDay, 
-    //         loggedDayAuthor: Auth.getProfile().data.username 
-    //     }
-    // });
-//     return(
-//         <div>
-//             <EntirLog loggedDayData={data.loggedDay}></EntirLog>
-//             <EntryForm onSubmit={refetch} ></EntryForm>
-//         </div>
-//     )
-// }
-
-
 const EntryLog = (props) => {
    
     const [ edit, setEdit ] = useState(false);
@@ -86,66 +58,83 @@ const EntryLog = (props) => {
     };  
     
     return (
-        <div>
+        <div className='flex-column-center'>
             <CalorieBar calorieIntake={calorieIntake} calorieTarget={calorieTarget} />
             
-            { (!loggedDayData || (loggedDayData.entries.length < 1)) ?
-                <p> You haven't made any entries for {props.loggedDay} yet. </p>
-                :
-                <>
-                    <Table striped>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>Item</Table.HeaderCell>
-                                <Table.HeaderCell>Calories</Table.HeaderCell>
-                                { (edit) ? 
-                                    <Table.HeaderCell></Table.HeaderCell>
-                                    : console.log('okay')
-                                }
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {loggedDayData.entries.map((entry) => (
+            <div className='entry-log'>
+                { (!loggedDayData || (loggedDayData.entries.length < 1)) ?
+                        <>
+                            <div className='entry-log-msg'>
+                                <p> You haven't made any entries for {props.loggedDay}.</p>
+                                <p> Use the 'Add an entry' button below to get started! </p>
+                            </div>
+                            
+                        </>
+                    :
+                    <>
+                        <Table striped>
+                            <Table.Header>
                                 <Table.Row>
-                                    <Table.Cell>{entry.item}</Table.Cell>
-                                    <Table.Cell>{entry.calories}</Table.Cell>
-                                    { (edit) ?
-                                        <Table.Cell>
-                                            <Button 
-                                                icon
-                                                color='red'
-                                                onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
-                                            >
-                                                <Icon name='delete' />
-                                            </Button>
-                                            <Button
-                                                icon
-                                                onClick={e=> { 
-                                                    e.preventDefault();
-                                                    setUpdateId(entry._id);
-                                                    setUpdateItem(entry.item);
-                                                    setUpdateCalories(entry.calories);
-                                                    setShowUpdateForm(true);
-                                                }}
-                                            >
-                                                <Icon name='pencil' />
-                                            </Button>
-                                        </Table.Cell>
+                                    <Table.HeaderCell>Item</Table.HeaderCell>
+                                    <Table.HeaderCell>Calories</Table.HeaderCell>
+                                    { (edit) ? 
+                                        <Table.HeaderCell></Table.HeaderCell>
                                         : console.log('okay')
                                     }
-                                </Table.Row> 
-                            ))}
-                        </Table.Body>
-                    </Table>
+                                </Table.Row>
+                            </Table.Header>
+                            <Table.Body>
+                                {loggedDayData.entries.map((entry) => (
+                                    <Table.Row>
+                                        <Table.Cell>{entry.item}</Table.Cell>
+                                        <Table.Cell>{entry.calories}</Table.Cell>
+                                        { (edit) ?
+                                            <Table.Cell>
+                                                <Button 
+                                                    icon
+                                                    color='red'
+                                                    onClick={e=> { e.preventDefault(); handleRemoveEntry(entry._id)}}
+                                                >
+                                                    <Icon name='delete' />
+                                                </Button>
+                                                <Button
+                                                    icon
+                                                    onClick={e=> { 
+                                                        e.preventDefault();
+                                                        setUpdateId(entry._id);
+                                                        setUpdateItem(entry.item);
+                                                        setUpdateCalories(entry.calories);
+                                                        setShowUpdateForm(true);
+                                                    }}
+                                                >
+                                                    <Icon name='pencil' />
+                                                </Button>
+                                            </Table.Cell>
+                                            : console.log('okay')
+                                        }
+                                    </Table.Row> 
+                                ))}
+                            </Table.Body>
+                        </Table>
+                        
+                    </>
+                }
+            </div>
+
+            { (!loggedDayData || (loggedDayData.entries.length < 1)) ? 
+                <Button color='green' onClick={() => setShowEntryForm(true)}>
+                    Add an entry
+                </Button>
+            :
+                <div className='flex-column-row'>
+                    <Button color='green' onClick={() => setShowEntryForm(true)}>
+                        Add an entry
+                    </Button>
                     <Button onClick={() => setEdit(!edit)}>
                         Edit entry
                     </Button>
-                </>
+                </div>
             }
-            
-            <Button color='green' onClick={() => setShowEntryForm(true)}>
-                Add an entry
-            </Button>
             
             <Modal
                 size='lg'
