@@ -35,7 +35,9 @@ class AuthService {
   login(idToken) {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
+    console.log('trying to go to userhome');
     window.location.assign('/userhome');
+    console.log('changed window');
   }
 
   logout() {
