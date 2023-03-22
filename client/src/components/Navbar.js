@@ -14,7 +14,7 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar className="navi" variant="light" expand="lg">
+      <Navbar className="navi" variant="light" expand="md">
         <Container fluid>
           <Image src={ChewbyLogo} />
           <Navbar.Brand as={Link} to="/">
@@ -23,7 +23,7 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
             <Nav className="ml-auto d-flex">
-              {/* if user is logged in show saved books and logout */}
+              {/* if user is logged in show logout, else show login */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>

@@ -34,6 +34,19 @@ h6 {
   font-style: italic;
 }
 
+.card-header {
+  background-color: #ff7f27;
+  border: 1px solid #ff7f27;
+}
+
+.form-item input {
+  border-radius: 4px;
+}
+
+.form-item label{
+  width: 80px;
+}
+
 .flex-column-center {
   display: flex;
   flex-direction: column;
@@ -66,10 +79,6 @@ h6 {
   text-align: center;
 }
 
-.calorie-bar {
-  /* height: 100px; */
-}
-
 .calorie-bar p {
   text-align: center;
   margin: 0px;
@@ -97,10 +106,6 @@ h6 {
 .entry-log-msg {
   background-color: #e4e4e4;
   padding: 16px;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 12px;
-}
-
-.label {
-  color: green;
 }
