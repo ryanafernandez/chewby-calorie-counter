@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import UserHome from './pages/UserHome';
 import Navbar from "./components/Navbar";
+import Auth from "./utils/auth";
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -40,14 +41,13 @@ function App() {
         <>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route 
-              path="/userhome" 
-              element={<UserHome />} 
+              path="/" 
+              element={Auth.loggedIn() ? <UserHome /> : <Home />} 
             />
             <Route
               path="*"
-              element={<h1 className="display-2">Wrong page!</h1>}
+              element={<h1 className="display-2">Page Not Found</h1>}
             />
           </Routes>
         </>
