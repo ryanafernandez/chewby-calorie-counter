@@ -12,15 +12,24 @@ const CalorieBar = (props) => {
     }
 
     return (
-        <div class="calorieMeter">
+        <div className="calorie-bar">
+
+            <h4 id="calorie-bar-header">{props.calorieIntake}/{props.calorieTarget}</h4>
+
             { (overLimit)
-                ? <Progress percent={targetPercentage} color='red' />
-                : <Progress percent={targetPercentage} indicating />
+                ? <Progress percent={targetPercentage} color='red'/>
+                : <Progress percent={targetPercentage} indicating/>
             }
 
-            <p> 
-                {props.calorieIntake}/{props.calorieTarget}
-            </p>
+            { (overLimit)
+                ? <p id="calorie-bar-target">You are {props.calorieIntake - props.calorieTarget} calories over your target goal.</p>
+                : <p id="calorie-bar-target">You are {props.calorieTarget - props.calorieIntake} calories away from your daily target.</p>
+            }
+
+            
+            
+            
+            
         </div>
     )
 };

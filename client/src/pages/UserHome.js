@@ -57,15 +57,17 @@ const UserHome = () => {
     }
 
     return (
-        <div class="flex-column-center">
-            <h2>Hello {Auth.getProfile().data.username}</h2>
-            <div class="flex-row-center">
-                <ButtonAnimatedLeft handlePrev={handlePrev} prev={prevShort}/>
-                <h2>{formattedDay}</h2>
-                <ButtonAnimatedRight handleNext={handleNext} next={nextShort}/>
-            </div>
-            <div>
-                <EntryLog loggedDay={loggedDay} />
+        <div className="flex-column-center">
+            <div className="flex-column-center userhome">
+                <h2>Hello {Auth.getProfile().data.username}</h2>
+                <div className="flex-row-center date-select">
+                    <ButtonAnimatedLeft handlePrev={handlePrev} prev={prevShort}/>
+                    <h2>{formattedDay}</h2>
+                    <ButtonAnimatedRight handleNext={handleNext} next={nextShort}/>
+                </div>
+                <div>
+                    <EntryLog loggedDay={loggedDay} />
+                </div>
             </div>
         </div>
     );

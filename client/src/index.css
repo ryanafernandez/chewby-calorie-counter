@@ -11,6 +11,24 @@ h6 {
   font-family: "Rubik Mono One", sans-serif;
 }
 
+#root {
+  height: 100vh;
+  background-color: rgb(255, 242, 212);
+}
+
+.navi {
+  background-color: #ff7f27;
+}
+
+.navi a {
+  color:white;
+}
+
+.navbar-brand {
+  font-size: 32px;
+  font-weight: bold;
+}
+
 .small {
   font-weight: 300;
   font-style: italic;
@@ -28,6 +46,61 @@ h6 {
   align-items: center;
 }
 
-.entries {
+.userhome {
+  margin: 14px;
+  padding: 24px 40px 48px 40px;
+  background-color: #fff;
+  border: 1px solid #d1d3db;
+  border-radius: 10px;
+  /* box-shadow: offset-x | offset-y | blur-radius | color */
+  box-shadow: 10px 10px 20px #0000001a ;
+}
+
+.userhome h2 {
+  margin: 0px;
+} 
+
+.date-select h2{
+  margin: 0px 8px;
+  width: 370px;
+  text-align: center;
+}
+
+.calorie-bar {
+  /* height: 100px; */
+}
+
+.calorie-bar p {
+  text-align: center;
+  margin: 0px;
+  width: 300px;
+  font-size: 12px;
+}
+
+#calorie-bar-header {
+  text-align: center;
+  margin: 0px;
+  width: 300px;
+}
+
+#calorie-bar-target {
+  position: relative;
+  top: -12px;
+}
+
+.entry-log {
+  padding: 12px 56px;
+  width: 420px;
   
+}
+
+.entry-log-msg {
+  background-color: #e4e4e4;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.label {
+  color: green;
 }
