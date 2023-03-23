@@ -16,7 +16,6 @@ const loggedDaySchema = new Schema({
     type: Date,
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
-    // mongoose setter
   },
   entries: [entrySchema], 
 });
