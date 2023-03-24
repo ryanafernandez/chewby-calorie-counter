@@ -1,4 +1,4 @@
-# Project-3
+# Chewby - A Calorie Counting Application
 
 ## Description
 
