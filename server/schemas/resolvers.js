@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, LoggedDay, Entry } = require('../models');
+const { User, Goals, LoggedDay, Entry } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -15,6 +15,9 @@ const resolvers = {
     },
     user: async (parent, { username }) => {
         return User.findOne({ username }).populate('loggedDays');
+    },
+    goal: async (parent, { user_id }) => {
+        return Goals.findOne({ user_id});
     },
     loggedDays: async (parent, { username }) => {
         const params = username ? { username } : {};
@@ -54,6 +57,26 @@ const resolvers = {
         const token = signToken(user);
 
         return { token, user };
+    },
+    addGoals: async (parent, { user_id }, context) => {
+        if (context.user) {
+            const newGoals = await Goals.create({ calorie_goal, user_id });
+
+            return newGoals;
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    updateGoals: async (parent, { calorie_goal, user_id }, context) => {
+        if (context.user) {
+            const newGoal = await Goals.findOneAndUpdate(
+                { user_id: user_id },
+                { $set: { calorie_goal: calorie_goal }},
+                { returnDocument: "after" },
+            );
+
+            return newGoal;
+        }
+        throw new AuthenticationError('You need to be logged in!');
     },
     addLoggedDay: async (parent, { loggedDay, loggedDayAuthor }, context) => {
         if (context.user) {
@@ -120,6 +143,7 @@ const resolvers = {
             await LoggedDay.findOneAndUpdate(
                 { _id: loggedDayId },
                 { $pull: { entries: { _id: entryId } } },
+                
             );
     
             const loggedDay = await LoggedDay.findById( loggedDayId );

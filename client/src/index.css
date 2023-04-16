@@ -13,9 +13,9 @@ h6 {
 
 #root {
   height: 100vh;
-  background-color: rgb(255, 242, 212);
 }
 
+/* Navigation Styles */
 .navi {
   background-color: #ff7f27;
 }
@@ -37,6 +37,27 @@ h6 {
 .card-header {
   background-color: #ff7f27;
   border: 1px solid #ff7f27;
+}
+
+/* Home Styles */
+.home-container {
+  width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-hero {
+  width: 100%;
+  justify-content: space-between;
+  padding: 64px 32px 32px 32px;
+}
+
+.hero-text, .hero-image {
+  width: 50%;
+}
+
+.home-info {
+  padding: 32px; 
 }
 
 .form-item input {
