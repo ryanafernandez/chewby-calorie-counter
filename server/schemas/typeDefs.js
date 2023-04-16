@@ -58,6 +58,7 @@ const typeDefs = gql`
     users: [User]
     user(username: String!): User
     goal(user_id: String!): Goals
+    dayLog(day: String!, user_id: String!): DayLog
     loggedDays(username: String): [LoggedDay]
     loggedDay(loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     entry(entryId: ID!): Entry
@@ -70,6 +71,11 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addGoals(user_id: String!): Goals
     updateGoals(calorie_goal: Int!, user_id: String!): Goals
+    addDayLog(day: String!, user_id: String!): DayLog
+    addFood(name: String!, calories: Int!, protein: Int, fat: Int, carbs: Int, user_id: String): Food
+    addToBreakfast(day: String!, user_id: String!, food_id: String!): DayLog
+    addToLunch(day: String!, user_id: String!, food_id: String!): DayLog
+    addToDinner(day: String!, user_id: String!, food_id: String!): DayLog
     addLoggedDay(loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     addEntry(item: String!, calories: Int!, loggedDay: String!, loggedDayAuthor: String!): LoggedDay
     removeEntry(entryId: String!, loggedDayId: String!): LoggedDay

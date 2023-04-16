@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Goals, LoggedDay, Entry } = require('../models');
+const { User, Goals, DayLog, Food, LoggedDay, Entry } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -17,7 +17,10 @@ const resolvers = {
         return User.findOne({ username }).populate('loggedDays');
     },
     goal: async (parent, { user_id }) => {
-        return Goals.findOne({ user_id});
+        return Goals.findOne({ user_id });
+    },
+    dayLog: async (parent, { day, user_id }) => {
+        return DayLog.findOne({ day, user_id });
     },
     loggedDays: async (parent, { username }) => {
         const params = username ? { username } : {};
@@ -58,14 +61,18 @@ const resolvers = {
 
         return { token, user };
     },
+    // Creates a new Goal in Goals for the associated user_id with a default calorie_goal of 2000.
+    // Returns the created Goal document.
     addGoals: async (parent, { user_id }, context) => {
         if (context.user) {
-            const newGoals = await Goals.create({ calorie_goal, user_id });
+            const newGoals = await Goals.create({ user_id });
 
             return newGoals;
         }
         throw new AuthenticationError('You need to be logged in!');
     },
+    // Updates the user's calorie_goal. Requires the user_id and for the user to be logged in.
+    // Returns the updated Goal document.
     updateGoals: async (parent, { calorie_goal, user_id }, context) => {
         if (context.user) {
             const newGoal = await Goals.findOneAndUpdate(
@@ -75,6 +82,54 @@ const resolvers = {
             );
 
             return newGoal;
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    // Creates a new DayLog for the associated user_id.
+    // Returns the created DayLog document.
+    addDayLog: async (parent, { day, user_id }, context) => {
+        if (context.user) {
+            const search = await DayLog.findOne({ day, user_id });
+
+            if (search == null) {
+                const newDayLog = await DayLog.create({ day, user_id });
+                return newDayLog;
+            } else {
+                return search;
+            }
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    addFood: async (parent, { name, calories, protein, fat, carbs, user_id }, context) => {
+        if (context.user) {
+            const search = await Food.findOne({ name, calories, protein, fat, carbs });
+
+            if (search == null) {
+                const newFood = await Food.create({ name, calories, protein, fat, carbs, user_id });
+                return newFood;
+            } else {
+                return search;
+            }
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    addToBreakfast: async (parent, { day, user_id, food_id }, context) => {
+        if (context.user) {
+            const food = await Food.findOne({ food_id });
+            console.log(food);
+            const newDayLog = await DayLog.findOneAndUpdate(
+                {
+                    day: day,
+                    user_id: user_id,
+                },
+                // May need to use Food model and Entry schema separately
+                // Entry will have specific EntryId
+                // Food model will be used for searching
+                { $push: { breakfast: food_id }},
+                { returnDocument: "after" },
+            );
+
+            return newDayLog;
         }
         throw new AuthenticationError('You need to be logged in!');
     },
