@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from './Dashboard';
 import FoodLog from './FoodLog';
 import Settings from './Settings';
+import { HomeProvider } from '../../utils/HomeContext';
 import { GET_ME } from '../../utils/queries';
 import Auth from '../../utils/auth';
 
@@ -25,7 +26,8 @@ function MyHome() {
     // User found, render dashboard
 
     return (
-        <>
+        <HomeProvider>
+        
             <Routes>
                 {/* 
                     / can still be used to navigate to Home
@@ -48,7 +50,7 @@ function MyHome() {
                     element={<Settings />}
                 />
             </Routes>
-        </>
+        </HomeProvider>
     )
 }
 
