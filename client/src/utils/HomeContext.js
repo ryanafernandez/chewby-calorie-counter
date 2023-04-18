@@ -1,4 +1,9 @@
 import React, { useState, createContext, useContext } from 'react';
+import { useQuery } from '@apollo/client';
+
+import { QUERY_SINGLE_DAY_LOG } from './queries';
+import Auth from './auth';
+import loggedDayFormat from './loggedDayFormat';
 
 const HomeContext = createContext();
 
