@@ -33,3 +33,39 @@ export const QUERY_SINGLE_LOGGED_DAY = gql`
         }
     }
 `;
+
+export const QUERY_SINGLE_DAY_LOG = gql`
+    query DayLog($day: String!, $userId: String!) {
+        dayLog(day: $day, user_id: $userId) {
+            _id
+            day
+            user_id {
+                _id
+            }
+            breakfast {
+                _id
+                calories
+                carbs
+                fat
+                name
+                protein
+            }
+            lunch {
+                _id
+                calories
+                carbs
+                fat
+                name
+                protein
+            }
+            dinner {
+                _id
+                calories
+                carbs
+                fat
+                name
+                protein
+            }
+        }
+    }
+`;
