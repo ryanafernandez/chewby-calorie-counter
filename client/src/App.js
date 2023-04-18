@@ -9,6 +9,9 @@ import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from './pages/Home';
+import MyHome from './pages/signedPages/MyHome';
+import Dashboard from './pages/signedPages/Dashboard';
+import FoodLog from './pages/signedPages/FoodLog';
 import UserHome from './pages/UserHome';
 import Navbar from "./components/Navbar";
 import Auth from "./utils/auth";
@@ -43,7 +46,11 @@ function App() {
             <Routes>
               <Route 
                 path="/" 
-                element={Auth.loggedIn() ? <UserHome /> : <Home />} 
+                element={<Home />} 
+              />
+              <Route
+                path="/me/*"
+                element={<MyHome />}
               />
               <Route
                 path="*"
