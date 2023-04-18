@@ -113,7 +113,7 @@ const resolvers = {
         }
         throw new AuthenticationError('You need to be logged in!');
     },
-    addToBreakfast: async (parent, { day, user_id, food_id }, context) => {
+    addBreakfast: async (parent, { day, user_id, food_id }, context) => {
         if (context.user) {
             const food = await Food.findOne({ food_id });
             console.log(food);
@@ -125,7 +125,59 @@ const resolvers = {
                 // May need to use Food model and Entry schema separately
                 // Entry will have specific EntryId
                 // Food model will be used for searching
-                { $push: { breakfast: food_id }},
+                { $push: { breakfast: {
+                    name: food.name,
+                    calories: food.calories,
+                    protein: food.protein,
+                    fat: food.fat,
+                    carbs: food.carbs
+                } }},
+                { returnDocument: "after" },
+            );
+
+            return newDayLog;
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    addLunch: async (parent, { day, user_id, food_id }, context) => {
+        if (context.user) {
+            const food = await Food.findOne({ food_id });
+            console.log(food);
+            const newDayLog = await DayLog.findOneAndUpdate(
+                {
+                    day: day,
+                    user_id: user_id,
+                },
+                { $push: { lunch: {
+                    name: food.name,
+                    calories: food.calories,
+                    protein: food.protein,
+                    fat: food.fat,
+                    carbs: food.carbs
+                } }},
+                { returnDocument: "after" },
+            );
+
+            return newDayLog;
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    addDinner: async (parent, { day, user_id, food_id }, context) => {
+        if (context.user) {
+            const food = await Food.findOne({ food_id });
+            console.log(food);
+            const newDayLog = await DayLog.findOneAndUpdate(
+                {
+                    day: day,
+                    user_id: user_id,
+                },
+                { $push: { dinner: {
+                    name: food.name,
+                    calories: food.calories,
+                    protein: food.protein,
+                    fat: food.fat,
+                    carbs: food.carbs
+                } }},
                 { returnDocument: "after" },
             );
 
@@ -146,78 +198,120 @@ const resolvers = {
         }
         throw new AuthenticationError('You need to be logged in!');
     },
-    addEntry: async (parent , { item, calories, loggedDay, loggedDayAuthor }, context) => {
-        console.log(`Adding ${item} (${calories} calories) to ${loggedDayAuthor}\'s log for ${loggedDay}.`);
-        if (context.user) {
+    // addEntry: async (parent , { item, calories, loggedDay, loggedDayAuthor }, context) => {
+    //     console.log(`Adding ${item} (${calories} calories) to ${loggedDayAuthor}\'s log for ${loggedDay}.`);
+    //     if (context.user) {
             
-            // Looking for loggedDay, if it exists, then update. Else, findThis is null
-            const findThis = await LoggedDay.findOneAndUpdate(
-                { 
-                    loggedDay: loggedDay,
-                    loggedDayAuthor: loggedDayAuthor,
-                }, // find the day to log by day and author
-                { $addToSet: { entries: { item: item, calories: calories } }}
-            );
+    //         // Looking for loggedDay, if it exists, then update. Else, findThis is null
+    //         const findThis = await LoggedDay.findOneAndUpdate(
+    //             { 
+    //                 loggedDay: loggedDay,
+    //                 loggedDayAuthor: loggedDayAuthor,
+    //             }, // find the day to log by day and author
+    //             { $addToSet: { entries: { item: item, calories: calories } }}
+    //         );
 
-            // If findThis is not null, then return the updated loggedDay
-            if (findThis) {
-                const updatedLoggedDay = await LoggedDay.findOne( {
-                    loggedDay, loggedDayAuthor
-                });
-                return updatedLoggedDay;
-            } else { // Else, add a new logged day, and add the entry
-                // Create the new logged day
-                const newLoggedDay = await LoggedDay.create({ loggedDay, loggedDayAuthor });
+    //         // If findThis is not null, then return the updated loggedDay
+    //         if (findThis) {
+    //             const updatedLoggedDay = await LoggedDay.findOne( {
+    //                 loggedDay, loggedDayAuthor
+    //             });
+    //             return updatedLoggedDay;
+    //         } else { // Else, add a new logged day, and add the entry
+    //             // Create the new logged day
+    //             const newLoggedDay = await LoggedDay.create({ loggedDay, loggedDayAuthor });
 
-                await User.findOneAndUpdate(
-                    { username: loggedDayAuthor },
-                    { $addToSet: { loggedDays: newLoggedDay._id }}
-                );
+    //             await User.findOneAndUpdate(
+    //                 { username: loggedDayAuthor },
+    //                 { $addToSet: { loggedDays: newLoggedDay._id }}
+    //             );
 
-                // Add the entry
-                await LoggedDay.findOneAndUpdate(
-                    { 
-                        loggedDay: loggedDay,
-                        loggedDayAuthor: loggedDayAuthor,
-                    }, // find the day to log by day and author
-                    { $addToSet: { entries: { item: item, calories: calories } }}
-                );
+    //             // Add the entry
+    //             await LoggedDay.findOneAndUpdate(
+    //                 { 
+    //                     loggedDay: loggedDay,
+    //                     loggedDayAuthor: loggedDayAuthor,
+    //                 }, // find the day to log by day and author
+    //                 { $addToSet: { entries: { item: item, calories: calories } }}
+    //             );
 
-                // Return the new loggedDay
-                const updatedLoggedDay = await LoggedDay.findOne( {
-                    loggedDay, loggedDayAuthor
-                });
-                return updatedLoggedDay;
-            }
+    //             // Return the new loggedDay
+    //             const updatedLoggedDay = await LoggedDay.findOne( {
+    //                 loggedDay, loggedDayAuthor
+    //             });
+    //             return updatedLoggedDay;
+    //         }
             
-        }
-        throw new AuthenticationError('You need to be logged in!');
-    },
-    removeEntry: async (parent, { entryId, loggedDayId }, context) => {
+    //     }
+    //     throw new AuthenticationError('You need to be logged in!');
+    // },
+    removeBreakfast: async (parent, { entryId, dayLogId }, context) => {
         if (context.user) {
-            await LoggedDay.findOneAndUpdate(
-                { _id: loggedDayId },
-                { $pull: { entries: { _id: entryId } } },
-                
+            const updatedDayLog = await DayLog.findOneAndUpdate(
+                { _id: dayLogId },
+                { $pull: { breakfast: { _id: entryId } } },
+                { returnDocument: "after" },
             );
     
-            const loggedDay = await LoggedDay.findById( loggedDayId );
-            return loggedDay;
+            return updatedDayLog;
         }
         throw new AuthenticationError('You need to be logged in!');
     },
-    updateEntry: async (parent, { entryId, item, calories }, context) => {
+    removeLunch: async (parent, { entryId, dayLogId }, context) => {
         if (context.user) {
-            await LoggedDay.findOneAndUpdate(
-                { "entries._id": entryId },
-                { $set: { "entries.$": { item: item, calories: calories } } },
+            const updatedDayLog = await DayLog.findOneAndUpdate(
+                { _id: dayLogId },
+                { $pull: { lunch: { _id: entryId } } },
+                { returnDocument: "after" },
             );
-            
-            const loggedDay = await LoggedDay.findOne(
-                { "entries._id": entryId }
+    
+            return updatedDayLog;
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    removeDinner: async (parent, { entryId, dayLogId }, context) => {
+        if (context.user) {
+            const updatedDayLog = await DayLog.findOneAndUpdate(
+                { _id: dayLogId },
+                { $pull: { dinner: { _id: entryId } } },
+                { returnDocument: "after" },
+            );
+    
+            return updatedDayLog;
+        }
+        throw new AuthenticationError('You need to be logged in!');
+    },
+    updateBreakfast: async (parent, { entryId, dayLogId, name, calories, protein, fat, carbs }, context) => {
+        if (context.user) {
+            const updatedDayLog = await DayLog.findOneAndUpdate(
+                { "breakfast._id": entryId },
+                { $set: { "breakfast.$": { name: name, calories: calories, protein: protein, fat: fat, carbs: carbs }}},
+                { returnDocument: "after" },
             );
 
-            return loggedDay;
+            return updatedDayLog;
+        }
+    },
+    updateLunch: async (parent, { entryId, dayLogId, name, calories, protein, fat, carbs }, context) => {
+        if (context.user) {
+            const updatedDayLog = await DayLog.findOneAndUpdate(
+                { "lunch._id": entryId },
+                { $set: { "lunch.$": { name: name, calories: calories, protein: protein, fat: fat, carbs: carbs }}},
+                { returnDocument: "after" },
+            );
+
+            return updatedDayLog;
+        }
+    },
+    updateDinner: async (parent, { entryId, dayLogId, name, calories, protein, fat, carbs }, context) => {
+        if (context.user) {
+            const updatedDayLog = await DayLog.findOneAndUpdate(
+                { "dinner._id": entryId },
+                { $set: { "dinner.$": { name: name, calories: calories, protein: protein, fat: fat, carbs: carbs }}},
+                { returnDocument: "after" },
+            );
+
+            return updatedDayLog;
         }
     }
   },

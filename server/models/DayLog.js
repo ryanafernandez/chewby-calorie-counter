@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const entrySchema = require('./Entry');
 
 const dayLogSchema = new Schema({
     day: {
@@ -10,24 +11,9 @@ const dayLogSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    breakfast: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Food',
-        },
-    ],
-    lunch: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Food',
-        },
-    ],
-    dinner: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Food',
-        },
-    ],
+    breakfast: [entrySchema],
+    lunch: [entrySchema],
+    dinner: [entrySchema],
     water: {
         type: Number,
         trim: true,

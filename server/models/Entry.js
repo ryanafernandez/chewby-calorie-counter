@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 
 const entrySchema = new Schema({
-  item: {
+  name: {
     type: String,
     required: true,
     trim: true,
@@ -11,6 +11,18 @@ const entrySchema = new Schema({
     required: true,
     trim: true,
   },
+  protein: {
+    type: Number,
+    trim: true,
+  },
+  fat: {
+    type: Number,
+    trim: true,
+  },
+  carbs: {
+    type: Number,
+    trim: true,
+  }
 });
 
 module.exports = entrySchema;
