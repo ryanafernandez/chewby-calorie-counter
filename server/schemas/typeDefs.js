@@ -34,7 +34,7 @@ const typeDefs = gql`
 
   type Food {
     _id: ID
-    nume: String!
+    name: String!
     calories: Int!
     protein: Int
     fat: Int
@@ -72,14 +72,17 @@ const typeDefs = gql`
     addGoals(user_id: String!): Goals
     updateGoals(calorie_goal: Int!, user_id: String!): Goals
     addDayLog(day: String!, user_id: String!): DayLog
-    addFood(name: String!, calories: Int!, protein: Int, fat: Int, carbs: Int, user_id: String): Food
-    addToBreakfast(day: String!, user_id: String!, food_id: String!): DayLog
-    addToLunch(day: String!, user_id: String!, food_id: String!): DayLog
-    addToDinner(day: String!, user_id: String!, food_id: String!): DayLog
     addLoggedDay(loggedDay: String!, loggedDayAuthor: String!): LoggedDay
-    addEntry(item: String!, calories: Int!, loggedDay: String!, loggedDayAuthor: String!): LoggedDay
-    removeEntry(entryId: String!, loggedDayId: String!): LoggedDay
-    updateEntry(entryId: String!, item: String!, calories: Int!): LoggedDay
+    addFood(name: String!, calories: Int!, protein: Int, fat: Int, carbs: Int, user_id: String): Food
+    addBreakfast(day: String!, user_id: String!, food_id: String!): DayLog
+    addLunch(day: String!, user_id: String!, food_id: String!): DayLog
+    addDinner(day: String!, user_id: String!, food_id: String!): DayLog
+    removeBreakfast(entryId: String!, dayLogId: String!): DayLog
+    removeLunch(entryId: String!, dayLogId: String!): DayLog
+    removeDinner(entryId: String!, dayLogId: String!): DayLog
+    updateBreakfast(entryId: String!, dayLogId: String!, name: String!, calories: Int!, protein: Int, fat: Int, carbs: Int): DayLog
+    updateLunch(entryId: String!, dayLogId: String!, name: String!, calories: Int!, protein: Int, fat: Int, carbs: Int): DayLog
+    updateDinner(entryId: String!, dayLogId: String!, name: String!, calories: Int!, protein: Int, fat: Int, carbs: Int): DayLog
   }
 `;
 
