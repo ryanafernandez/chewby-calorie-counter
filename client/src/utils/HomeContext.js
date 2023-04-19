@@ -1,30 +1,22 @@
-import React, { useState, createContext, useContext } from 'react';
-import { useQuery } from '@apollo/client';
-
-import { QUERY_SINGLE_DAY_LOG } from './queries';
-import Auth from './auth';
-import loggedDayFormat from './loggedDayFormat';
+import React, { createContext, useContext } from 'react';
+import { useHomeReducer } from './reducers';
 
 const HomeContext = createContext();
+const { Provider } = HomeContext;
 
-export const useHomeContext = () => useContext(HomeContext);
+const HomeProvider = ({ value = [], ...props}) => {
+    const [state, dispatch] = useHomeReducer({
+        viewedDay: new Date(),
+        breakfast: [],
+        lunch: [],
+        dinner: [],
+    });
 
-export const HomeProvider = (props) => {
-    const [viewedDay, setViewedDay] = useState(new Date());
-
-    const viewPrev = () => {
-        const prev = new Date(viewedDay);
-        prev.setDate(viewedDay.getDate() - 1);
-        setViewedDay(prev);
-    };
-
-    const viewNext = () => {
-        const next = new Date(viewedDay);
-        next.setDate(viewedDay.getDate() + 1);
-        setViewedDay(next);
-    };
-
-    return (
-        <HomeContext.Provider value={{ viewedDay, viewPrev, viewNext }} {...props} />
-    );
+    return <Provider value={[state, dispatch]} {...props} />;
 };
+
+const useHomeContext = () => {
+    return useContext(HomeContext);
+};
+
+export { HomeProvider, useHomeContext };
