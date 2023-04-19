@@ -10,9 +10,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from './pages/Home';
 import MyHome from './pages/signedPages/MyHome';
-import Dashboard from './pages/signedPages/Dashboard';
-import FoodLog from './pages/signedPages/FoodLog';
-import UserHome from './pages/UserHome';
 import Navbar from "./components/Navbar";
 import Auth from "./utils/auth";
 
