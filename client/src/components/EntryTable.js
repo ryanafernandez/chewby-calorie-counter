@@ -20,13 +20,31 @@ const EntryTable = (props) => {
         // <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
         <div className="entry-table">
             <div className="table-header">
-                <p>{props.title}</p>
-                <div className="macros">
-                    <p>Carbs</p>
-                    <p>Fat</p>
-                    <p>Protein</p>
+                <div className="edit-col">
+                    <button>Edit</button>
                 </div>
-                <p>Cals</p>
+        
+                <div className="name-col">
+                    <p>{props.title}</p>
+                </div>
+                
+                <div className="macros-col">
+                    <div>
+                        <p>Carbs (g)</p>
+                    </div>
+
+                    <div>
+                        <p>Fat (g)</p>
+                    </div>
+                    
+                    <div>
+                        <p>Protein (g)</p>
+                    </div>
+                </div>
+
+                <div className="cals-col">
+                    <p>Cals</p>
+                </div>
             </div>
             { (!props.data || (props.data.length < 1)) ?
                 <>
@@ -35,13 +53,32 @@ const EntryTable = (props) => {
                 <>
                     {props.data.map((entry) => (
                         <div className="table-entry">
-                            <p>{entry.name}</p>
-                            <div className="macros">
-                                <p>{entry.carbs}</p>
-                                <p>{entry.fat}</p>
-                                <p>{entry.protein}</p>
+                            <div className="edit-col">
+                                <button>Edit</button>
+                                <button>Delete</button>
                             </div>
-                            <p>{entry.calories}</p>
+
+                            <div className="name-col">
+                                <p>{entry.name}</p>
+                            </div>
+                            
+                            <div className="macros-col">
+                                <div>
+                                    <p>{entry.carbs}</p>
+                                </div>
+
+                                <div>
+                                    <p>{entry.fat}</p>
+                                </div>         
+
+                                <div>
+                                    <p>{entry.protein}</p>
+                                </div>                       
+                            </div>
+
+                            <div className="cals-col">
+                                <p>{entry.calories}</p>
+                            </div>
                         </div>
                     ))}
                 </>
