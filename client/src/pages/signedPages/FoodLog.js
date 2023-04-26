@@ -75,10 +75,13 @@ const FoodLog = () => {
     };
 
     return (
-        <>
-            <button onClick={viewPrev}>Prev</button>
-            <p>{ day }</p>
-            <button onClick={viewNext}>Next</button>
+        <div className='content-container food-log'>
+            <div className='day-controls'>
+                <button onClick={viewPrev}>Prev</button>
+                <p>{ day }</p>
+                <button onClick={viewNext}>Next</button>
+            </div>
+            
             <EntryTable title='Breakfast' data={breakfast} modalControl={() => showModal('Breakfast')}/>
             <EntryTable title='Lunch' data={lunch} modalControl={() => showModal('Lunch')} />
             <EntryTable title='Dinner' data={dinner} modalControl={() => showModal('Dinner')}/>
@@ -98,7 +101,7 @@ const FoodLog = () => {
                     <EntryForm day={day} formCategory={formCategory} handleModalClose={() => setShowEntryForm(false)} />
                 </Modal.Body>
             </Modal>
-        </>
+        </div>
     )
 }
 

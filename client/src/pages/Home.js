@@ -7,7 +7,7 @@ import smoothie from '../images/smoothie.png';
 
 const Home = () => {
     return (
-        <div className='home-container flex-column-center'>
+        <div className='content-container flex-column-center'>
             <div className='home-hero flex-row-center'>
                 <div className='hero-text'>
                     <h2>Counting calories can be hard to manage.</h2>

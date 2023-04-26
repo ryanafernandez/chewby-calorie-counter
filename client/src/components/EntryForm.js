@@ -49,7 +49,6 @@ const EntryForm = (props) => {
                 return;
             }
         
-
             const addFoodData = await addFood({
                 variables: {
                     name: formState.name,
@@ -99,7 +98,7 @@ const EntryForm = (props) => {
                     });
                     break;
                 default:
-                    console.log('invalid');
+                    console.log('Could not add to Day Log');
                     break;
             }
 
@@ -111,7 +110,6 @@ const EntryForm = (props) => {
                 carbs: 0,
             });
 
-           
             props.handleModalClose();
         } catch (err) {
             console.error(err);
