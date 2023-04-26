@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 
-import { ADD_BREAKFAST, ADD_LUNCH, ADD_DINNER } from '../utils/mutations';
+import { ADD_BREAKFAST, ADD_LUNCH, ADD_DINNER, ADD_FOOD, ADD_DAY_LOG } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const EntryForm = (props) => {
@@ -16,6 +16,8 @@ const EntryForm = (props) => {
         category: props.formCategory,
     });
 
+    const [addFood] = useMutation(ADD_FOOD);
+    const [addDayLog] = useMutation(ADD_DAY_LOG);
     const [addBreakfast] = useMutation(ADD_BREAKFAST);
     const [addLunch] = useMutation(ADD_LUNCH);
     const [addDinner] = useMutation(ADD_DINNER);
@@ -26,13 +28,13 @@ const EntryForm = (props) => {
         if (name === 'name') {
             setFormState({ ...formState, [name]: value });
         } else if (name === 'calories') {
-            setFormState({ ...formState, [name]: value });
+            setFormState({ ...formState, [name]: parseInt(value) });
         } else if (name === 'protein') {
-            setFormState({ ...formState, [name]: value });
+            setFormState({ ...formState, [name]: parseInt(value) });
         } else if (name === 'fat') {
-            setFormState({ ...formState, [name]: value });
+            setFormState({ ...formState, [name]: parseInt(value) });
         } else if (name === 'carbs') {
-            setFormState({ ...formState, [name]: value });
+            setFormState({ ...formState, [name]: parseInt(value) });
         } else if (name === 'category') {
             setFormState({ ...formState, [name]: value });
         }
@@ -46,14 +48,35 @@ const EntryForm = (props) => {
                 console.error("Please enter a name");
                 return;
             }
-            
+        
+
+            const addFoodData = await addFood({
+                variables: {
+                    name: formState.name,
+                    calories: formState.calories,
+                    carbs: formState.carbs,
+                    fat: formState.fat,
+                    protein: formState.protein,
+                    userId: formState.userId
+                }
+            });
+
+            const foodId = addFoodData.data.addFood._id;
+
+            const dayLogId = await addDayLog({
+                variables: {
+                    day: formState.day,
+                    userId: formState.userId
+                }
+            });
+
             switch(formState.category) {
                 case 'Breakfast':
                     await addBreakfast({
                         variables: {
                             day: formState.day,
                             userId: formState.userId,
-                            foodId: "643ec6d1e481dd6fd663fa13"
+                            foodId: foodId
                         },
                     });
                     break;
@@ -62,7 +85,7 @@ const EntryForm = (props) => {
                         variables: {
                             day: formState.day,
                             userId: formState.userId,
-                            foodId: "643ec6d1e481dd6fd663fa13"
+                            foodId: foodId
                         },
                     });
                     break;
@@ -71,7 +94,7 @@ const EntryForm = (props) => {
                         variables: {
                             day: formState.day,
                             userId: formState.userId,
-                            foodId: "643ec6d1e481dd6fd663fa13"
+                            foodId: foodId
                         },
                     });
                     break;
