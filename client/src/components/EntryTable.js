@@ -17,7 +17,39 @@ const EntryTable = (props) => {
 
     
     return (
-        <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
+        // <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
+        <div className="entry-table">
+            <div className="table-header">
+                <p>{props.title}</p>
+                <div className="macros">
+                    <p>Carbs</p>
+                    <p>Fat</p>
+                    <p>Protein</p>
+                </div>
+                <p>Cals</p>
+            </div>
+            { (!props.data || (props.data.length < 1)) ?
+                <>
+                </>
+                :
+                <>
+                    {props.data.map((entry) => (
+                        <div className="table-entry">
+                            <p>{entry.name}</p>
+                            <div className="macros">
+                                <p>{entry.carbs}</p>
+                                <p>{entry.fat}</p>
+                                <p>{entry.protein}</p>
+                            </div>
+                            <p>{entry.calories}</p>
+                        </div>
+                    ))}
+                </>
+            }
+            <div className="add-entry">
+                <button onClick={props.modalControl}>Add Entry</button>
+            </div>
+        </div>
     );
 };
 
