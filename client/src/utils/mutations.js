@@ -89,3 +89,102 @@ export const UPDATE_ENTRY = gql`
     }
   }
 `;
+
+export const ADD_BREAKFAST = gql`
+  mutation AddBreakfast($day: String!, $userId: String!, $foodId: String!) {
+    addBreakfast(day: $day, user_id: $userId, food_id: $foodId) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
+
+export const ADD_LUNCH = gql`
+  mutation AddLunch($day: String!, $userId: String!, $foodId: String!) {
+    addLunch(day: $day, user_id: $userId, food_id: $foodId) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
+
+export const ADD_DINNER = gql`
+  mutation AddDinner($day: String!, $userId: String!, $foodId: String!) {
+    addDinner(day: $day, user_id: $userId, food_id: $foodId) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;

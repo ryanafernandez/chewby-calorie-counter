@@ -130,3 +130,19 @@ h6 {
   border-radius: 4px;
   font-size: 12px;
 }
+
+/* EntryTable Styles */
+.entry-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header, .table-entry {
+  display: flex;
+  justify-content: space-between;
+}
+
+.macros {
+  display: flex;
+  justify-content: space-between;
+}
