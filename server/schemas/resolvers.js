@@ -115,7 +115,7 @@ const resolvers = {
     },
     addBreakfast: async (parent, { day, user_id, food_id }, context) => {
         if (context.user) {
-            const food = await Food.findOne({ food_id });
+            const food = await Food.findOne({ _id: food_id });
             console.log(food);
             const newDayLog = await DayLog.findOneAndUpdate(
                 {
@@ -141,7 +141,7 @@ const resolvers = {
     },
     addLunch: async (parent, { day, user_id, food_id }, context) => {
         if (context.user) {
-            const food = await Food.findOne({ food_id });
+            const food = await Food.findOne({ _id: food_id });
             console.log(food);
             const newDayLog = await DayLog.findOneAndUpdate(
                 {
@@ -164,7 +164,7 @@ const resolvers = {
     },
     addDinner: async (parent, { day, user_id, food_id }, context) => {
         if (context.user) {
-            const food = await Food.findOne({ food_id });
+            const food = await Food.findOne({ _id: food_id });
             console.log(food);
             const newDayLog = await DayLog.findOneAndUpdate(
                 {

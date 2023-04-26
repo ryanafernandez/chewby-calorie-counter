@@ -90,6 +90,22 @@ export const UPDATE_ENTRY = gql`
   }
 `;
 
+export const ADD_FOOD = gql`
+  mutation AddFood($name: String!, $calories: Int!, $protein: Int, $fat: Int, $carbs: Int, $userId: String) {
+    addFood(name: $name, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs, user_id: $userId) {
+      _id
+    }
+  }
+`;
+
+export const ADD_DAY_LOG = gql`
+  mutation AddDayLog($day: String!, $userId: String!) {
+    addDayLog(day: $day, user_id: $userId) {
+      _id
+    }
+  }
+`;
+
 export const ADD_BREAKFAST = gql`
   mutation AddBreakfast($day: String!, $userId: String!, $foodId: String!) {
     addBreakfast(day: $day, user_id: $userId, food_id: $foodId) {
