@@ -1,20 +1,56 @@
 import React from 'react';
+import { useMutation } from '@apollo/client';
 import { CompactTable } from '@table-library/react-table-library/compact';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 
+import { useHomeContext } from '../utils/HomeContext';
+import { REMOVE_BREAKFAST, REMOVE_LUNCH, REMOVE_DINNER } from '../utils/mutations';
+
 const EntryTable = (props) => {
 
-    const data = { nodes: props.data };
-    const theme = useTheme(getTheme());
-    const COLUMNS = [
-        { label: props.title, renderCell: (item) => item.name },
-        { label: 'Carbs', renderCell: (item) => item.carbs },
-        { label: 'Fat', renderCell: (item) => item.fat },
-        { label: 'Protein', renderCell: (item) => item.protein },
-        { label: 'Cals', renderCell: (item) => item.calories },
-    ];
+    const [state, dispatch] = useHomeContext();
+    const { dayLogId } = state;
 
+    const [removeBreakfast] = useMutation(REMOVE_BREAKFAST);
+    const [removeLunch] = useMutation(REMOVE_LUNCH);
+    const [removeDinner] = useMutation(REMOVE_DINNER);
+
+    const handleRemoveEntry = async (meal, entryId) => {
+        try {
+            switch (meal) {
+                case 'Breakfast':
+                    await removeBreakfast({
+                        variables: {
+                            entryId: entryId,
+                            dayLogId: dayLogId
+                        },
+                    });
+                    break;
+                case 'Lunch':
+                    await removeLunch({
+                        variables: {
+                            entryId: entryId,
+                            dayLogId: dayLogId
+                        },
+                    });
+                    break;
+                case 'Dinner':
+                    await removeDinner({
+                        variables: {
+                            entryId: entryId,
+                            dayLogId: dayLogId
+                        },
+                    });
+                    break;
+            }
+
+            // setEdit(false);
+        } catch (err) {
+            console.error(err);
+        }
+        
+    };  
     
     return (
         // <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
@@ -55,7 +91,7 @@ const EntryTable = (props) => {
                         <div className="table-entry">
                             <div className="edit-col">
                                 <button>Edit</button>
-                                <button>Delete</button>
+                                <button onClick={e=> { e.preventDefault(); handleRemoveEntry(props.title, entry._id)}}>Delete</button>
                             </div>
 
                             <div className="name-col">

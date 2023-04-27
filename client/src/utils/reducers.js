@@ -23,6 +23,7 @@ export const reducer = (state, action) => {
         case UPDATE_MEALS:
             return {
                 ...state,
+                dayLogId: action.dayLogId,
                 breakfast: [...action.breakfast],
                 lunch: [...action.lunch],
                 dinner: [...action.dinner],

@@ -17,7 +17,7 @@ import { Modal } from 'react-bootstrap';
 
 const FoodLog = () => {
     const [state, dispatch] = useHomeContext();
-    const { viewedDay, breakfast, lunch, dinner } = state;
+    const { viewedDay, dayLogId, breakfast, lunch, dinner } = state;
     let day = loggedDayFormat(viewedDay, true);
 
     // Modal states
@@ -37,6 +37,7 @@ const FoodLog = () => {
         if (data.dayLog) {
             dispatch({
                 type: UPDATE_MEALS,
+                dayLogId: data.dayLog._id,
                 breakfast: data.dayLog.breakfast,
                 lunch: data.dayLog.lunch,
                 dinner: data.dayLog.dinner,
@@ -44,6 +45,7 @@ const FoodLog = () => {
         } else {
             dispatch({
                 type: UPDATE_MEALS,
+                dayLogId: '',
                 breakfast: [],
                 lunch: [],
                 dinner: [],
