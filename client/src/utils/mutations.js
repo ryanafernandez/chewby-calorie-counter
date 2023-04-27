@@ -204,3 +204,102 @@ export const ADD_DINNER = gql`
     }
   }
 `;
+
+export const REMOVE_BREAKFAST = gql`
+  mutation RemoveBreakfast($entryId: String!, $dayLogId: String!) {
+    removeBreakfast(entryId: $entryId, dayLogId: $dayLogId) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
+
+export const REMOVE_LUNCH = gql`
+  mutation RemoveLunch($entryId: String!, $dayLogId: String!) {
+    removeLunch(entryId: $entryId, dayLogId: $dayLogId) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
+
+export const REMOVE_DINNER = gql`
+  mutation RemoveDinner($entryId: String!, $dayLogId: String!) {
+    removeDinner(entryId: $entryId, dayLogId: $dayLogId) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
