@@ -42,7 +42,7 @@ const EntryForm = (props) => {
 
     const handleAddEntry = async (event) => {
         event.preventDefault();
-
+        props.handleModalClose();
         try {
             if (!formState.name.length) {
                 console.error("Please enter a name");
@@ -110,7 +110,7 @@ const EntryForm = (props) => {
                 carbs: 0,
             });
 
-            props.handleModalClose();
+            
         } catch (err) {
             console.error(err);
         }
