@@ -303,3 +303,102 @@ export const REMOVE_DINNER = gql`
     }
   }
 `;
+
+export const UPDATE_BREAKFAST = gql`
+  mutation UpdateBreakfast($entryId: String!, $dayLogId: String!, $name: String!, $calories: Int!, $protein: Int, $fat: Int, $carbs: Int) {
+    updateBreakfast(entryId: $entryId, dayLogId: $dayLogId, name: $name, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
+
+export const UPDATE_LUNCH = gql`
+  mutation UpdateLunch($entryId: String!, $dayLogId: String!, $name: String!, $calories: Int!, $protein: Int, $fat: Int, $carbs: Int) {
+    updateLunch(entryId: $entryId, dayLogId: $dayLogId, name: $name, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
+
+export const UPDATE_DINNER = gql`
+  mutation UpdateDinnner($entryId: String!, $dayLogId: String!, $name: String!, $calories: Int!, $protein: Int, $fat: Int, $carbs: Int) {
+    updateDinner(entryId: $entryId, dayLogId: $dayLogId, name: $name, calories: $calories, protein: $protein, fat: $fat, carbs: $carbs) {
+      _id
+      day
+      breakfast {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      lunch {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+      dinner {
+        _id
+        calories
+        carbs
+        fat
+        name
+        protein
+      }
+    }
+  }
+`;
