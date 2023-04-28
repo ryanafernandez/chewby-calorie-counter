@@ -30,7 +30,7 @@ const resolvers = {
         return LoggedDay.findOne({ loggedDay, loggedDayAuthor });
     },
     entry: async (parent, { entryId }) => {
-        return Entry.findOne({ _id: entryId });
+        return Entry.find({ _id: entryId });
     },
     entries: async (parent, { loggedDayAuthor }) => {
         const params = loggedDayAuthor ? { loggedDayAuthor } : {};
@@ -291,6 +291,7 @@ const resolvers = {
 
             return updatedDayLog;
         }
+        throw new AuthenticationError('You need to be logged in!');
     },
     updateLunch: async (parent, { entryId, dayLogId, name, calories, protein, fat, carbs }, context) => {
         if (context.user) {
@@ -302,6 +303,7 @@ const resolvers = {
 
             return updatedDayLog;
         }
+        throw new AuthenticationError('You need to be logged in!');
     },
     updateDinner: async (parent, { entryId, dayLogId, name, calories, protein, fat, carbs }, context) => {
         if (context.user) {
@@ -313,6 +315,7 @@ const resolvers = {
 
             return updatedDayLog;
         }
+        throw new AuthenticationError('You need to be logged in!');
     }
   },
 };

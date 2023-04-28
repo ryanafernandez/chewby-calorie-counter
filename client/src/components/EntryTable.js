@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { Modal } from 'react-bootstrap';
 import { CompactTable } from '@table-library/react-table-library/compact';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
+
+import UpdateForm from './UpdateForm';
 
 import { useHomeContext } from '../utils/HomeContext';
 import { REMOVE_BREAKFAST, REMOVE_LUNCH, REMOVE_DINNER } from '../utils/mutations';
@@ -15,6 +18,17 @@ const EntryTable = (props) => {
     const [removeBreakfast] = useMutation(REMOVE_BREAKFAST);
     const [removeLunch] = useMutation(REMOVE_LUNCH);
     const [removeDinner] = useMutation(REMOVE_DINNER);
+
+    const [ showUpdateForm, setShowUpdateForm ] = useState(false);
+    const [ updateForm, setUpdateForm ] = useState({
+        entryId: '',
+        dayLogId: dayLogId,
+        name: '',
+        calories: 0,
+        protein: 0,
+        fat: 0,
+        carbs: 0
+    });
 
     const handleRemoveEntry = async (meal, entryId) => {
         try {
@@ -90,7 +104,23 @@ const EntryTable = (props) => {
                     {props.data.map((entry) => (
                         <div className="table-entry">
                             <div className="edit-col">
-                                <button>Edit</button>
+                                <button 
+                                    onClick={e => { 
+                                                e.preventDefault();
+                                                setUpdateForm({
+                                                    entryId: entry._id,
+                                                    dayLogId: dayLogId,
+                                                    name: entry.name,
+                                                    calories: entry.calories,
+                                                    protein: entry.protein,
+                                                    fat: entry.fat,
+                                                    carbs: entry.carbs
+                                                });
+                                                setShowUpdateForm(true);
+                                    }}
+                                >
+                                    Edit
+                                </button>
                                 <button onClick={e=> { e.preventDefault(); handleRemoveEntry(props.title, entry._id)}}>Delete</button>
                             </div>
 
@@ -120,8 +150,34 @@ const EntryTable = (props) => {
                 </>
             }
             <div className="add-entry">
-                <button onClick={props.modalControl}>Add Entry</button>
+                <button onClick={props.addModalControl}>Add Entry</button>
             </div>
+
+            <Modal
+                size='lg'
+                show={showUpdateForm}
+                onHide={() => setShowUpdateForm(false)}
+                aria-labelledby='updateform-modal'
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id='updateform-modal'>
+                        Update an Entry
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <UpdateForm 
+                        entryId={updateForm.entryId}
+                        dayLogId={dayLogId}
+                        name={updateForm.name}
+                        calories={updateForm.calories}
+                        protein={updateForm.protein}
+                        fat={updateForm.fat}
+                        carbs={updateForm.carbs}
+                        formCategory={props.title}
+                        handleModalClose={() => setShowUpdateForm(false)}
+                    />
+                </Modal.Body>
+            </Modal>
         </div>
     );
 };

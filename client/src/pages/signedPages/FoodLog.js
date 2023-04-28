@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 
 import EntryTable from '../../components/EntryTable';
 import EntryForm from '../../components/EntryForm';
+import UpdateForm from '../../components/UpdateForm';
 
 import { useHomeContext } from '../../utils/HomeContext';
 import loggedDayFormat from '../../utils/loggedDayFormat';
@@ -22,7 +23,8 @@ const FoodLog = () => {
 
     // Modal states
     const [ showEntryForm, setShowEntryForm ] = useState(false);
-    const [ formCategory, setFormCategory ] = useState('Breakfast');
+    const [ showUpdateForm, setShowUpdateForm ] = useState(false);
+    const [ formCategory, setFormCategory ] = useState('');
 
     const { loading, error, data } = useQuery(QUERY_SINGLE_DAY_LOG, {
         variables: {
@@ -71,9 +73,15 @@ const FoodLog = () => {
         });
     };
 
-    function showModal(meal) {
+    function showAddModal(meal) {
         setFormCategory(meal);
         setShowEntryForm(true);
+    };
+
+    const showUpdateModal = (meal) => {
+        setFormCategory(meal);
+        setShowUpdateForm(true);
+        console.log(meal);
     };
 
     return (
@@ -84,9 +92,21 @@ const FoodLog = () => {
                 <button onClick={viewNext}>Next</button>
             </div>
             
-            <EntryTable title='Breakfast' data={breakfast} modalControl={() => showModal('Breakfast')}/>
-            <EntryTable title='Lunch' data={lunch} modalControl={() => showModal('Lunch')} />
-            <EntryTable title='Dinner' data={dinner} modalControl={() => showModal('Dinner')}/>
+            <EntryTable 
+                title='Breakfast' 
+                data={breakfast}
+                addModalControl={() => showAddModal('Breakfast')}
+            />
+            <EntryTable 
+                title='Lunch' 
+                data={lunch} 
+                addModalControl={() => showAddModal('Lunch')}
+            />
+            <EntryTable 
+                title='Dinner' 
+                data={dinner} 
+                addModalControl={() => showAddModal('Dinner')}
+            />
 
             <Modal
                 size='lg'
@@ -103,6 +123,8 @@ const FoodLog = () => {
                     <EntryForm day={day} formCategory={formCategory} handleModalClose={() => setShowEntryForm(false)} />
                 </Modal.Body>
             </Modal>
+
+            
         </div>
     )
 }
