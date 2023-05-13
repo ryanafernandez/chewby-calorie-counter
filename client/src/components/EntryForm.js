@@ -117,55 +117,77 @@ const EntryForm = (props) => {
     }
 
     return (
-        <>
-            <input 
-                label="Item"
-                name="name"
-                placeholder="Item name"
-                value={formState.item}
-                onChange={handleChange} 
-            />
-            <input
-                label="Calories"
-                type="number"
-                name="calories"
-                placeholder="Calories"
-                onChange={handleChange}
-            />
-            <input
-                label="Carbs"
-                type="number"
-                name="carbs"
-                placeholder="Carbs"
-                onChange={handleChange}
-            />
-            <input
-                label="Fat"
-                type="number"
-                name="fat"
-                placeholder="Fat"
-                onChange={handleChange}
-            />
-            <input
-                label="Protein"
-                type="number"
-                name="protein"
-                placeholder="Protein"
-                onChange={handleChange}
-            />
-            <select
-                name="category"
-                onChange={handleChange}
-                value={props.formCategory}
-            >
-                <option value="Breakfast">Breakfast</option>
-                <option value="Lunch">Lunch</option>
-                <option value="Dinner">Dinner</option>
-            </select>
+        <div className="entry-form">
+            <div className="form-item">
+                <label for="name">Item name</label>
+                <input 
+                    name="name"
+                    placeholder="Item name"
+                    value={formState.item}
+                    onChange={handleChange} 
+                />
+            </div>
+            
+            <div className="form-item">
+                <label for="calories">Calories</label>
+                <input
+                    type="number"
+                    name="calories"
+                    placeholder="Calories"
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="carbs">Carbs (g)</label>
+                <input
+                    label="Carbs"
+                    type="number"
+                    name="carbs"
+                    placeholder="Carbs"
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="fat">Fat (g)</label>
+                <input
+                    label="Fat"
+                    type="number"
+                    name="fat"
+                    placeholder="Fat"
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="protein">Protein (g)</label>
+                <input
+                    label="Protein"
+                    type="number"
+                    name="protein"
+                    placeholder="Protein"
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="category">Category</label>
+                <select
+                    name="category"
+                    onChange={handleChange}
+                    value={props.formCategory}
+                >
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                </select>
+            </div>
+            
             <button onClick={handleAddEntry}>
                 Add Entry
             </button>
-        </>
+        </div>
     )
 }
 
