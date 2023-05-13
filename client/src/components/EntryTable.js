@@ -66,6 +66,20 @@ const EntryTable = (props) => {
         
     };  
     
+    const totals = {
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        calories: 0
+    };
+
+    props.data.forEach(entry => {
+        totals.carbs += entry.carbs;
+        totals.protein += entry.protein;
+        totals.fat += entry.fat;
+        totals.calories += entry.calories;
+    });
+
     return (
         // <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
         <div className="entry-table">
@@ -153,6 +167,31 @@ const EntryTable = (props) => {
                 <button onClick={props.addModalControl}>Add Entry</button>
             </div>
 
+            <div className="table-entry">
+                <div className="edit-col"></div>
+
+                <div className="name-col">
+                    TOTALS
+                </div>
+
+                <div className="macros-col">
+                    <div>
+                        <p>{totals.carbs}</p>
+                    </div>
+
+                    <div>
+                        <p>{totals.fat}</p>
+                    </div>         
+
+                    <div>
+                        <p>{totals.protein}</p>
+                    </div>   
+                </div>
+
+                <div className="cals-col">
+                    <p>{totals.calories}</p>
+                </div>
+            </div>
             <Modal
                 size='lg'
                 show={showUpdateForm}

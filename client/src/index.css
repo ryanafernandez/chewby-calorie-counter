@@ -180,3 +180,15 @@ h6 {
 .cals-col {
   width: 100px;
 }
+
+/* EntryForm Styles */
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.entry-form input, .entry-form select {
+  width: 400px;
+}
