@@ -11,7 +11,7 @@ import { useHomeContext } from '../utils/HomeContext';
 import { REMOVE_BREAKFAST, REMOVE_LUNCH, REMOVE_DINNER } from '../utils/mutations';
 
 const EntryTable = (props) => {
-    const editButtons = document.querySelectorAll(`.edit-${props.title}`);
+    const [ edit, setEdit ] = useState(false);
 
     const [state, dispatch] = useHomeContext();
     const { dayLogId } = state;
@@ -60,9 +60,6 @@ const EntryTable = (props) => {
                     break;
             }
 
-            editButtons.forEach(button => {
-                button.setAttribute("hidden");
-            })
         } catch (err) {
             console.error(err);
         }
@@ -71,13 +68,28 @@ const EntryTable = (props) => {
 
     
 
-    const editButtonhandler = () => {
+    const editButtonHandler = async () => {
+        if (edit) {
+            await setEdit(false);
+            hideButtons();
+        }
+        else {
+            await setEdit(true);
+            showButtons();
+        }
+    };
+
+    const showButtons = () => {
+        const editButtons = document.querySelectorAll(`.edit-${props.title}`);
         editButtons.forEach(button => {
-            if (button.hidden) {
-                button.hidden = false;
-            } else {
-                button.hidden = true;
-            }
+            button.hidden = false;
+        })
+    };
+
+    const hideButtons = () => {
+        const editButtons = document.querySelectorAll(`.edit-${props.title}`);
+        editButtons.forEach(button => {
+            button.hidden = true;
         })
     };
 
@@ -87,7 +99,7 @@ const EntryTable = (props) => {
             <div className="table-header">
                 <div className="edit-col">
                     <button
-                        onClick={editButtonhandler}
+                        onClick={editButtonHandler}
                     >
                         Edit
                     </button>
@@ -123,40 +135,39 @@ const EntryTable = (props) => {
                     {props.data.map((entry) => (
                         <div className="table-entry">
                             <div className="edit-col">
-                                <button 
-                                    className={`edit-${props.title}`}
-                                    onClick={e => { 
-                                                e.preventDefault();
-                                                setUpdateForm({
-                                                    entryId: entry._id,
-                                                    dayLogId: dayLogId,
-                                                    name: entry.name,
-                                                    calories: entry.calories,
-                                                    protein: entry.protein,
-                                                    fat: entry.fat,
-                                                    carbs: entry.carbs
-                                                });
-                                                setShowUpdateForm(true);
-                                                editButtons.forEach(button => {
-                                                    button.hidden=true;
-                                                })
+                                        <button 
+                                            className={`edit-${props.title}`}
+                                            onClick={e => { 
+                                                        e.preventDefault();
+                                                        setUpdateForm({
+                                                            entryId: entry._id,
+                                                            dayLogId: dayLogId,
+                                                            name: entry.name,
+                                                            calories: entry.calories,
+                                                            protein: entry.protein,
+                                                            fat: entry.fat,
+                                                            carbs: entry.carbs
+                                                        });
+                                                        setShowUpdateForm(true);
+                                                        editButtonHandler();
 
-                                    }}
-                                    hidden
-                                >
-                                    Edit
-                                </button>
+                                            }}
+                                            hidden
+                                        >
+                                            Edit
+                                        </button>
 
-                                <button
-                                    className={`edit-${props.title}`} 
-                                    onClick={e=> { 
+                                        <button
+                                            className={`edit-${props.title}`} 
+                                            onClick={e=> { 
                                                 e.preventDefault();
                                                 handleRemoveEntry(props.title, entry._id);
+                                                editButtonHandler();
                                             }}
-                                    hidden
-                                >
-                                    Delete
-                                </button>
+                                            hidden
+                                        >
+                                            Delete
+                                        </button>              
                             </div>
 
                             <div className="name-col">
@@ -185,7 +196,15 @@ const EntryTable = (props) => {
                 </>
             }
             <div className="add-entry">
-                <button onClick={props.addModalControl}>Add Entry</button>
+                <button 
+                    onClick={e=> {
+                        e.preventDefault();
+                        props.addModalControl();
+                        editButtonHandler();
+                    }}
+                >
+                    Add Entry
+                </button>
             </div>
 
             <div className="table-entry">
