@@ -11,6 +11,7 @@ import { useHomeContext } from '../utils/HomeContext';
 import { REMOVE_BREAKFAST, REMOVE_LUNCH, REMOVE_DINNER } from '../utils/mutations';
 
 const EntryTable = (props) => {
+    const editButtons = document.querySelectorAll(`.edit-${props.title}`);
 
     const [state, dispatch] = useHomeContext();
     const { dayLogId } = state;
@@ -59,19 +60,37 @@ const EntryTable = (props) => {
                     break;
             }
 
-            // setEdit(false);
+            editButtons.forEach(button => {
+                button.setAttribute("hidden");
+            })
         } catch (err) {
             console.error(err);
         }
         
     };  
 
+    
+
+    const editButtonhandler = () => {
+        editButtons.forEach(button => {
+            if (button.hidden) {
+                button.hidden = false;
+            } else {
+                button.hidden = true;
+            }
+        })
+    };
+
     return (
         // <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
         <div className="entry-table">
             <div className="table-header">
                 <div className="edit-col">
-                    <button>Edit</button>
+                    <button
+                        onClick={editButtonhandler}
+                    >
+                        Edit
+                    </button>
                 </div>
         
                 <div className="name-col">
@@ -105,6 +124,7 @@ const EntryTable = (props) => {
                         <div className="table-entry">
                             <div className="edit-col">
                                 <button 
+                                    className={`edit-${props.title}`}
                                     onClick={e => { 
                                                 e.preventDefault();
                                                 setUpdateForm({
@@ -117,11 +137,26 @@ const EntryTable = (props) => {
                                                     carbs: entry.carbs
                                                 });
                                                 setShowUpdateForm(true);
+                                                editButtons.forEach(button => {
+                                                    button.hidden=true;
+                                                })
+
                                     }}
+                                    hidden
                                 >
                                     Edit
                                 </button>
-                                <button onClick={e=> { e.preventDefault(); handleRemoveEntry(props.title, entry._id)}}>Delete</button>
+
+                                <button
+                                    className={`edit-${props.title}`} 
+                                    onClick={e=> { 
+                                                e.preventDefault();
+                                                handleRemoveEntry(props.title, entry._id);
+                                            }}
+                                    hidden
+                                >
+                                    Delete
+                                </button>
                             </div>
 
                             <div className="name-col">
