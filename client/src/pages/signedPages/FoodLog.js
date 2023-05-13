@@ -84,6 +84,60 @@ const FoodLog = () => {
         console.log(meal);
     };
 
+    const dailyTotals = {
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        calories: 0
+    };
+
+    const breakfastTotals = {
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        calories: 0
+    };
+
+    const lunchTotals = {
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        calories: 0
+    };
+
+    const dinnerTotals = {
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        calories: 0
+    };
+
+    breakfast.forEach(entry => {
+        breakfastTotals.carbs += entry.carbs;
+        breakfastTotals.protein += entry.protein;
+        breakfastTotals.fat += entry.fat;
+        breakfastTotals.calories += entry.calories;
+    });
+
+    lunch.forEach(entry => {
+        lunchTotals.carbs += entry.carbs;
+        lunchTotals.protein += entry.protein;
+        lunchTotals.fat += entry.fat;
+        lunchTotals.calories += entry.calories;
+    });
+
+    dinner.forEach(entry => {
+        dinnerTotals.carbs += entry.carbs;
+        dinnerTotals.protein += entry.protein;
+        dinnerTotals.fat += entry.fat;
+        dinnerTotals.calories += entry.calories;
+    });
+
+    dailyTotals.carbs = breakfastTotals.carbs + lunchTotals.carbs + dinnerTotals.carbs;
+    dailyTotals.fat = breakfastTotals.fat + lunchTotals.fat + dinnerTotals.fat;
+    dailyTotals.protein = breakfastTotals.protein + lunchTotals.protein + dinnerTotals.protein;
+    dailyTotals.calories = breakfastTotals.calories + lunchTotals.calories + dinnerTotals.calories;
+
     return (
         <div className='content-container food-log'>
             <div className='day-controls'>
@@ -92,19 +146,32 @@ const FoodLog = () => {
                 <button onClick={viewNext}>Next</button>
             </div>
             
+            <div className="totals">
+                <p>Carbs: {dailyTotals.carbs}</p>
+
+                <p>Fat: {dailyTotals.fat}</p>
+
+                <p>Protein: {dailyTotals.protein}</p>
+
+                <p>Cals: {dailyTotals.calories}</p>
+            </div>
+
             <EntryTable 
                 title='Breakfast' 
                 data={breakfast}
+                totals={breakfastTotals}
                 addModalControl={() => showAddModal('Breakfast')}
             />
             <EntryTable 
                 title='Lunch' 
-                data={lunch} 
+                data={lunch}
+                totals={lunchTotals} 
                 addModalControl={() => showAddModal('Lunch')}
             />
             <EntryTable 
                 title='Dinner' 
-                data={dinner} 
+                data={dinner}
+                totals={dinnerTotals} 
                 addModalControl={() => showAddModal('Dinner')}
             />
 

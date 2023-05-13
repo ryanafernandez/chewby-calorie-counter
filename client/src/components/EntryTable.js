@@ -65,20 +65,6 @@ const EntryTable = (props) => {
         }
         
     };  
-    
-    const totals = {
-        carbs: 0,
-        protein: 0,
-        fat: 0,
-        calories: 0
-    };
-
-    props.data.forEach(entry => {
-        totals.carbs += entry.carbs;
-        totals.protein += entry.protein;
-        totals.fat += entry.fat;
-        totals.calories += entry.calories;
-    });
 
     return (
         // <CompactTable key={props.data.id} columns={COLUMNS} data={data} theme={theme}/>
@@ -176,20 +162,20 @@ const EntryTable = (props) => {
 
                 <div className="macros-col">
                     <div>
-                        <p>{totals.carbs}</p>
+                        <p>{props.totals.carbs}</p>
                     </div>
 
                     <div>
-                        <p>{totals.fat}</p>
+                        <p>{props.totals.fat}</p>
                     </div>         
 
                     <div>
-                        <p>{totals.protein}</p>
+                        <p>{props.totals.protein}</p>
                     </div>   
                 </div>
 
                 <div className="cals-col">
-                    <p>{totals.calories}</p>
+                    <p>{props.totals.calories}</p>
                 </div>
             </div>
             <Modal
