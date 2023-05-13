@@ -141,7 +141,6 @@ const EntryForm = (props) => {
             <div className="form-item">
                 <label for="carbs">Carbs (g)</label>
                 <input
-                    label="Carbs"
                     type="number"
                     name="carbs"
                     placeholder="Carbs"
@@ -152,7 +151,6 @@ const EntryForm = (props) => {
             <div className="form-item">
                 <label for="fat">Fat (g)</label>
                 <input
-                    label="Fat"
                     type="number"
                     name="fat"
                     placeholder="Fat"
@@ -163,7 +161,6 @@ const EntryForm = (props) => {
             <div className="form-item">
                 <label for="protein">Protein (g)</label>
                 <input
-                    label="Protein"
                     type="number"
                     name="protein"
                     placeholder="Protein"

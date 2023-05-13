@@ -106,57 +106,76 @@ const UpdateForm = (props) => {
     }
 
     return (
-        <>
-            <input 
-                label="name"
-                name="name"
-                placeholder="Item name"
-                value={formState.name}
-                onChange={handleChange} 
-            />
-            <input
-                label="Calories"
-                type="number"
-                name="calories"
-                placeholder="Calories"
-                value={formState.calories}
-                onChange={handleChange}
-            />
-            <input
-                label="Carbs"
-                type="number"
-                name="carbs"
-                placeholder="Carbs"
-                value={formState.carbs}
-                onChange={handleChange}
-            />
-            <input
-                label="Fat"
-                type="number"
-                name="fat"
-                placeholder="Fat"
-                value={formState.fat}
-                onChange={handleChange}
-            />
-            <input
-                label="Protein"
-                type="number"
-                name="protein"
-                placeholder="Protein"
-                value={formState.protein}
-                onChange={handleChange}
-            />
-            <select
-                name="category"
-                onChange={handleChange}
-                value={props.formCategory}
-            >
-                <option value={props.formCategory}>{props.formCategory}</option>
-            </select>
+        <div className="entry-form">
+            <div className="form-item">
+                <label for="name">Item name</label>
+                <input 
+                    name="name"
+                    placeholder="Item name"
+                    value={formState.name}
+                    onChange={handleChange} 
+                />
+            </div>
+            
+            <div className="form-item">
+                <label for="calories">Calories</label>
+                <input
+                    type="number"
+                    name="calories"
+                    placeholder="Calories"
+                    value={formState.calories}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="carbs">Carbs (g)</label>
+                <input
+                    type="number"
+                    name="carbs"
+                    placeholder="Carbs"
+                    value={formState.carbs}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="fat">Fat (g)</label>
+                <input
+                    type="number"
+                    name="fat"
+                    placeholder="Fat"
+                    value={formState.fat}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="protein">Protein (g)</label>
+                <input
+                    type="number"
+                    name="protein"
+                    placeholder="Protein"
+                    value={formState.protein}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-item">
+                <label for="category">Category</label>
+                <select
+                    name="category"
+                    onChange={handleChange}
+                    value={props.formCategory}
+                >
+                    <option value={props.formCategory}>{props.formCategory}</option>
+                </select>
+            </div>
+            
             <button onClick={handleUpdateEntry}>
                 Update Entry
             </button>
-        </>
+        </div>
     )
 };
 
