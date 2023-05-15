@@ -149,7 +149,7 @@ h6 {
 
 /* EntryTable Styles */
 .entry-table {
-  margin-top: 24px;
+  margin: 24px 0px;
   display: flex;
   flex-direction: column;
 }
@@ -157,6 +157,17 @@ h6 {
 .table-header, .table-entry {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+
+.table-header {
+  background-color: rgb(220, 220, 220);
+  border-radius: 8px;
+}
+
+.table-entry {
+  border-bottom: solid 1px rgb(165, 165, 165);
 }
 
 .table-header .name-col p, .table-header .cals-col p {
@@ -164,7 +175,9 @@ h6 {
 }
 
 .edit-col {
-  width: 100px;
+  display: flex;
+  width: 72px;
+  justify-content: center;
 }
 
 .name-col {
@@ -179,6 +192,12 @@ h6 {
 
 .cals-col {
   width: 100px;
+}
+
+.entry-table button {
+  border: none;
+  background-color: transparent;
+  padding: 4px 2px;
 }
 
 /* EntryForm Styles */

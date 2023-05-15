@@ -6,6 +6,13 @@ import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 
 import UpdateForm from './UpdateForm';
+import CarbIcon from '../images/bread-32.png';
+import FatIcon from '../images/butter-32.png';
+import ProteinIcon from '../images/chicken-32.png';
+import EditIcon from '../images/edit-32.png';
+import UpdateIcon from '../images/update-32.png';
+import DeleteIcon from '../images/delete-32.png';
+import AddIcon from '../images/add-32.png';
 
 import { useHomeContext } from '../utils/HomeContext';
 import { REMOVE_BREAKFAST, REMOVE_LUNCH, REMOVE_DINNER } from '../utils/mutations';
@@ -101,7 +108,7 @@ const EntryTable = (props) => {
                     <button
                         onClick={editButtonHandler}
                     >
-                        Edit
+                        <img src={EditIcon}/>
                     </button>
                 </div>
         
@@ -111,15 +118,15 @@ const EntryTable = (props) => {
                 
                 <div className="macros-col">
                     <div>
-                        <p>Carbs (g)</p>
+                        <img src={CarbIcon}/>
                     </div>
 
                     <div>
-                        <p>Fat (g)</p>
+                        <img src={FatIcon}/>
                     </div>
                     
                     <div>
-                        <p>Protein (g)</p>
+                        <img src={ProteinIcon}/>
                     </div>
                 </div>
 
@@ -154,7 +161,7 @@ const EntryTable = (props) => {
                                             }}
                                             hidden
                                         >
-                                            Edit
+                                            <img src={UpdateIcon}/>
                                         </button>
 
                                         <button
@@ -166,7 +173,7 @@ const EntryTable = (props) => {
                                             }}
                                             hidden
                                         >
-                                            Delete
+                                            <img src={DeleteIcon}/>
                                         </button>              
                             </div>
 
@@ -195,16 +202,25 @@ const EntryTable = (props) => {
                     ))}
                 </>
             }
-            <div className="add-entry">
-                <button 
-                    onClick={e=> {
-                        e.preventDefault();
-                        props.addModalControl();
-                        editButtonHandler();
-                    }}
-                >
-                    Add Entry
-                </button>
+            <div className="table-entry">
+                <div className="edit-col">
+                    <button 
+                        onClick={e=> {
+                            e.preventDefault();
+                            props.addModalControl();
+                            editButtonHandler();
+                        }}
+                    >
+                        <img src={AddIcon}/>
+                    </button>
+                </div>
+                
+                <div className="name-col">
+                    Add an Entry
+                </div>
+
+                <div className="macros-col"/>
+                <div className="cals-col"/>
             </div>
 
             <div className="table-entry">
