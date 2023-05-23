@@ -35,7 +35,8 @@ function MyHome() {
                  */}
                 <Route
                     path="/"
-                    element={<Dashboard />}
+                    element={<FoodLog />}
+                    // element={<Dashboard />}
                 />
                 <Route
                     path="/dashboard"
