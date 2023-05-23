@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 
 import EntryTable from '../../components/EntryTable';
 import EntryForm from '../../components/EntryForm';
-import UpdateForm from '../../components/UpdateForm';
 
 import LeftIcon from '../../images/left-32.png';
 import RightIcon from '../../images/right-32.png';
