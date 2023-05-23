@@ -11,7 +11,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import MyHome from './pages/signedPages/MyHome';
 import Navbar from "./components/Navbar";
-import Auth from "./utils/auth";
 
 const httpLink = createHttpLink({
   uri: '/graphql',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Image } from 'semantic-ui-react';
+import { Image } from 'semantic-ui-react';
 
 import GetStarted from '../components/GetStarted';
 import eggs from '../images/calorieeggs.jpg';

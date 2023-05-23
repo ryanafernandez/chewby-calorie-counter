@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Modal } from 'react-bootstrap';
-import { CompactTable } from '@table-library/react-table-library/compact';
-import { useTheme } from '@table-library/react-table-library/theme';
-import { getTheme } from '@table-library/react-table-library/baseline';
 
 import UpdateForm from './UpdateForm';
 import CarbIcon from '../images/bread-32.png';
