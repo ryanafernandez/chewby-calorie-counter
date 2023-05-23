@@ -108,7 +108,10 @@ const EntryTable = (props) => {
                     <button
                         onClick={editButtonHandler}
                     >
-                        <img src={EditIcon}/>
+                        <img 
+                            alt="Edit entries button" 
+                            src={EditIcon}
+                        />
                     </button>
                 </div>
         
@@ -118,15 +121,24 @@ const EntryTable = (props) => {
                 
                 <div className="macros-col">
                     <div>
-                        <img src={CarbIcon}/>
+                        <img 
+                            alt="A bread icon representing the carbohydrates column" 
+                            src={CarbIcon}
+                        />
                     </div>
 
                     <div>
-                        <img src={FatIcon}/>
+                        <img 
+                            alt="A cheese and butter icon representing the fat column"
+                            src={FatIcon}
+                        />
                     </div>
                     
                     <div>
-                        <img src={ProteinIcon}/>
+                        <img 
+                            alt="A chicken wing icon representing the protein column"
+                            src={ProteinIcon}
+                        />
                     </div>
                 </div>
 
@@ -161,7 +173,10 @@ const EntryTable = (props) => {
                                             }}
                                             hidden
                                         >
-                                            <img src={UpdateIcon}/>
+                                            <img 
+                                                alt="Update entry button"
+                                                src={UpdateIcon}
+                                            />
                                         </button>
 
                                         <button
@@ -173,7 +188,10 @@ const EntryTable = (props) => {
                                             }}
                                             hidden
                                         >
-                                            <img src={DeleteIcon}/>
+                                            <img 
+                                                alt="Delete entry button"
+                                                src={DeleteIcon}
+                                            />
                                         </button>              
                             </div>
 
@@ -211,7 +229,10 @@ const EntryTable = (props) => {
                             editButtonHandler();
                         }}
                     >
-                        <img src={AddIcon}/>
+                        <img 
+                            alt="Add entry button"
+                            src={AddIcon}
+                        />
                     </button>
                 </div>
                 

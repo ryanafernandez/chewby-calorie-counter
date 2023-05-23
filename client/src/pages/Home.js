@@ -16,12 +16,12 @@ const Home = () => {
                     <GetStarted />
                 </div>
                 <div className='hero-image'>
-                    <Image src={eggs} bordered rounded/>
+                    <Image alt="A picture of eggs" src={eggs} bordered rounded/>
                 </div>
             </div>
             <div className='home-info'>
                 <h2 align='center'> Welcome to Chewby, a calorie tracking application!</h2>
-                <Image src={smoothie} size='medium' floated='left' bordered rounded/>
+                <Image alt="A picture of a smoothie" src={smoothie} size='medium' floated='left' bordered rounded/>
                 <p>
                     With our user-friendly interface, you can easily track the calories you consume and burn throughout the day. 
                     Our app is designed to help you achieve your health and fitness goals by helping you keep track of the calories you eat throughout the day.

@@ -5,6 +5,8 @@ import EntryTable from '../../components/EntryTable';
 import EntryForm from '../../components/EntryForm';
 import UpdateForm from '../../components/UpdateForm';
 
+import LeftIcon from '../../images/left-32.png';
+import RightIcon from '../../images/right-32.png';
 import { useHomeContext } from '../../utils/HomeContext';
 import loggedDayFormat from '../../utils/loggedDayFormat';
 import { QUERY_SINGLE_DAY_LOG } from '../../utils/queries';
@@ -142,9 +144,13 @@ const FoodLog = () => {
         <div className='content-container food-log'>
             <div className='controls-and-totals'>
                 <div className='day-controls'>
-                    <button onClick={viewPrev}>Prev</button>
+                    <button onClick={viewPrev}>
+                        <img alt="Left arrow button" src={LeftIcon}/>
+                    </button>
                     <p>{ day }</p>
-                    <button onClick={viewNext}>Next</button>
+                    <button onClick={viewNext}>
+                        <img alt="Right arrow button" src={RightIcon}/>
+                    </button>
                 </div>
 
                 <div className="log-totals">
