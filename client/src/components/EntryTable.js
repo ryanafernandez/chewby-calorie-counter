@@ -223,11 +223,13 @@ const EntryTable = (props) => {
                 <div className="cals-col"/>
             </div>
 
-            <div className="table-entry">
+            <div className="table-entry totals">
                 <div className="edit-col"></div>
 
                 <div className="name-col">
-                    TOTALS
+                    <p>
+                        TOTALS
+                    </p>
                 </div>
 
                 <div className="macros-col">

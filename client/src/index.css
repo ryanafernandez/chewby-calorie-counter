@@ -143,8 +143,45 @@ h6 {
   flex-direction: column;
 }
 
+.controls-and-totals {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 16px;
+} 
+
 .day-controls {
   display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.log-totals {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding-right: 32px;
+}
+
+.day-controls p, .log-totals p {
+  margin: 0px;
+  
+}
+
+.log-totals-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.log-totals-stat .totals-macro {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.log-totals-stat .totals-cals {
+  font-weight: bold;
+  font-size: 32px;
 }
 
 /* EntryTable Styles */
@@ -170,7 +207,7 @@ h6 {
   border-bottom: solid 1px rgb(165, 165, 165);
 }
 
-.table-header .name-col p, .table-header .cals-col p {
+.table-header .name-col p, .table-header .cals-col p, .entry-table .totals p {
   font-weight: bolder;
 }
 

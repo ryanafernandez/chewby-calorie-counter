@@ -140,20 +140,34 @@ const FoodLog = () => {
 
     return (
         <div className='content-container food-log'>
-            <div className='day-controls'>
-                <button onClick={viewPrev}>Prev</button>
-                <p>{ day }</p>
-                <button onClick={viewNext}>Next</button>
-            </div>
-            
-            <div className="totals">
-                <p>Carbs: {dailyTotals.carbs}</p>
+            <div className='controls-and-totals'>
+                <div className='day-controls'>
+                    <button onClick={viewPrev}>Prev</button>
+                    <p>{ day }</p>
+                    <button onClick={viewNext}>Next</button>
+                </div>
 
-                <p>Fat: {dailyTotals.fat}</p>
+                <div className="log-totals">
+                    <div className="log-totals-stat">
+                        <p className="totals-macro">{dailyTotals.carbs}g</p>
+                        <p className="totals-label">Carbs</p>
+                    </div>
 
-                <p>Protein: {dailyTotals.protein}</p>
+                    <div className="log-totals-stat">
+                        <p className="totals-macro">{dailyTotals.fat}g</p>
+                        <p className="totals-label">Fat</p>
+                    </div>
 
-                <p>Cals: {dailyTotals.calories}</p>
+                    <div className="log-totals-stat">
+                        <p className="totals-macro">{dailyTotals.protein}g</p>
+                        <p className="totals-label">Protein</p>
+                    </div>
+                    
+                    <div className="log-totals-stat">
+                        <p className="totals-cals">{dailyTotals.calories}</p>
+                        <p className="totals-label">Calories</p>
+                    </div>
+                </div>
             </div>
 
             <EntryTable 
