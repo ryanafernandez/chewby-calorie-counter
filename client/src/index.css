@@ -247,3 +247,12 @@ h6 {
 .entry-form input, .entry-form select {
   width: 400px;
 }
+
+.entry-form button {
+  border: none;
+  border-radius: 16px;
+  color: white;
+  font-weight: bold;
+  padding: 8px 24px;
+  background-color: rgb(90, 160, 90);
+}
